@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-python:
+    name: Lint Python (ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff
+      - run: ruff check workshops/chatbi-dashboards/backend/
+      - run: ruff format --check workshops/chatbi-dashboards/backend/
+
+  lint-frontend:
+    name: Lint Frontend (eslint + prettier)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - working-directory: workshops/chatbi-dashboards/frontend
+        run: npm ci
+      - working-directory: workshops/chatbi-dashboards/frontend
+        run: npx eslint .
+      - working-directory: workshops/chatbi-dashboards/frontend
+        run: npx prettier --check "src/**/*.{ts,tsx,css}"
+
+  test-backend:
+    name: Test Backend (pytest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install uv
+      - working-directory: workshops/chatbi-dashboards/backend
+        run: uv pip install --system -e ".[dev]"
+      - working-directory: workshops/chatbi-dashboards/backend
+        run: pytest
+
+  validate-compose:
+    name: Validate docker-compose
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - working-directory: workshops/chatbi-dashboards
+        run: docker compose config

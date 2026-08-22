@@ -1,0 +1,60 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: chatbi-postgres
+    environment:
+      POSTGRES_USER: workshop
+      POSTGRES_PASSWORD: workshop
+      POSTGRES_DB: app_metadata
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U workshop -d app_metadata"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build: ./backend
+    container_name: chatbi-backend
+    environment:
+      DATABASE_URL: postgresql+asyncpg://workshop:workshop@postgres:5432/app_metadata
+      WREN_HOME: /app/.wren
+      WREN_PROJECTS_DIR: /app/wren_projects
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-http://localhost:8000/v1}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-changeme}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      OPENAI_EMBEDDING_MODEL: ${OPENAI_EMBEDDING_MODEL:-text-embedding-3-small}
+      OPENAI_STREAMING: ${OPENAI_STREAMING:-true}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+      SESSION_SECRET: ${SESSION_SECRET:-changeme-to-a-long-random-string}
+    ports:
+      - "8000:8000"
+    volumes:
+      - wren_projects:/app/wren_projects
+      - wren_home:/app/.wren
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-/api}
+        BACKEND_URL: http://backend:8000
+    container_name: chatbi-frontend
+    environment:
+      BACKEND_URL: http://backend:8000
+    ports:
+      - "8080:3000"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
+  wren_projects:
+  wren_home:

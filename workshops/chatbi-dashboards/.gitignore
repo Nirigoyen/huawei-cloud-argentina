@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Node
+node_modules/
+.next/
+out/
+
+# Env
+.env
+.env.local
+*.local
+
+# Wren generated
+wren_projects/
+.wren/
+backend/.wren/
+
+# Docker
+pgdata/
+
+# Misc
+.DS_Store
+*.log
