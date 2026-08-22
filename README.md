@@ -2,7 +2,6 @@
 
 [![Private Repository](https://img.shields.io/badge/repo-private-red.svg)]()
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![Made with Claude Code](https://img.shields.io/badge/built%20with-Claude%20Code-blueviolet.svg)](https://claude.com/claude-code)
 
 > Repositorio oficial del equipo de **Huawei Cloud Argentina**.
 > Contiene talleres prácticos, demos de productos, pruebas de rendimiento y ejemplos de infraestructura como código.
