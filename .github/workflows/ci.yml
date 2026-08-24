@@ -53,3 +53,54 @@ jobs:
       - uses: actions/checkout@v4
       - working-directory: workshops/chatbi-dashboards
         run: docker compose config
+
+  lint-python-demo:
+    name: Lint Python demo (ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff
+      - run: ruff check demos/ai-privacy-gateway/backend/
+      - run: ruff format --check demos/ai-privacy-gateway/backend/
+
+  lint-frontend-demo:
+    name: Lint Frontend demo (eslint + prettier)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - working-directory: demos/ai-privacy-gateway/frontend
+        run: npm ci
+      - working-directory: demos/ai-privacy-gateway/frontend
+        run: npx eslint .
+      - working-directory: demos/ai-privacy-gateway/frontend
+        run: npx prettier --check "src/**/*.{ts,tsx,css}"
+
+  test-backend-demo:
+    name: Test Backend demo (pytest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install uv
+      - working-directory: demos/ai-privacy-gateway/backend
+        run: uv pip install --system -e ".[dev]"
+      - working-directory: demos/ai-privacy-gateway/backend
+        run: pytest
+
+  validate-compose-demo:
+    name: Validate docker-compose demo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - working-directory: demos/ai-privacy-gateway
+        run: cp .env.example .env
+      - working-directory: demos/ai-privacy-gateway
+        run: docker compose config
