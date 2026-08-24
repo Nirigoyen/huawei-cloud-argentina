@@ -2,8 +2,17 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
-  listThreads, createThread, listMessages, streamChat,
-  listDashboards, createDashboard, addItem, type Thread, type Message, type Dashboard,
+  listThreads,
+  createThread,
+  listMessages,
+  streamChat,
+  listDashboards,
+  createDashboard,
+  addItem,
+  type Thread,
+  type Message,
+  type Dashboard,
+  type ChartSpec,
 } from "@/lib/api";
 import { ChartAnswer } from "./ChartAnswer";
 import { SQLView } from "./SQLView";
@@ -14,12 +23,12 @@ interface StreamMsg {
   content: string;
   thinking?: string;
   sql?: string;
-  chart_spec?: any;
-  data?: any;
+  chart_spec?: ChartSpec;
+  data?: unknown;
 }
 
 /** Extract a human title from a Vega-Lite spec (DeepSeek sets one). */
-function chartTitle(spec: any): string {
+function chartTitle(spec: ChartSpec): string {
   if (!spec) return "";
   const t = spec.title;
   if (typeof t === "string") return t;
@@ -39,13 +48,19 @@ export function ChatPanel() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    listThreads().then(setThreads).catch(() => {});
-    listDashboards().then(setDashboards).catch(() => {});
+    listThreads()
+      .then(setThreads)
+      .catch(() => {});
+    listDashboards()
+      .then(setDashboards)
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
-    if (active) listMessages(active.id).then(setMessages).catch(() => {});
-    else setMessages([]);
+    if (active)
+      listMessages(active.id)
+        .then(setMessages)
+        .catch(() => {});
   }, [active]);
 
   useEffect(() => {
@@ -86,7 +101,10 @@ export function ChatPanel() {
 
     setStreaming(null);
     setBusy(false);
-    if (thread) listMessages(thread.id).then(setMessages).catch(() => {});
+    if (thread)
+      listMessages(thread.id)
+        .then(setMessages)
+        .catch(() => {});
   }
 
   async function addToDashboard(msg: StreamMsg | Message) {
@@ -108,8 +126,8 @@ export function ChatPanel() {
         layout: { x: 0, y: 0, w: 6, h: 4 },
       });
       alert("Added to dashboard");
-    } catch (e: any) {
-      setAddError(e.message);
+    } catch (e: unknown) {
+      setAddError(e instanceof Error ? e.message : String(e));
     }
   }
 
@@ -117,12 +135,19 @@ export function ChatPanel() {
     const isUser = m.role === "user";
     const thinking = (m as StreamMsg).thinking;
     return (
-      <div key={(m as any).id || "stream"} className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
-        <div className={`max-w-[85%] rounded-2xl px-4 py-3 ${isUser ? "bg-indigo-600 text-white" : "bg-slate-800 border border-slate-700 text-slate-200"}`}>
+      <div
+        key={"id" in m ? m.id : "stream"}
+        className={`flex ${isUser ? "justify-end" : "justify-start"}`}
+      >
+        <div
+          className={`max-w-[85%] rounded-2xl px-4 py-3 ${isUser ? "bg-indigo-600 text-white" : "bg-slate-800 border border-slate-700 text-slate-200"}`}
+        >
           {/* Collapsible reasoning (only for assistant, only while/after streaming) */}
           {!isUser && thinking && (
             <details className="mb-2 text-xs text-slate-400">
-              <summary className="cursor-pointer select-none hover:text-slate-200">Thinking…</summary>
+              <summary className="cursor-pointer select-none hover:text-slate-200">
+                Thinking…
+              </summary>
               <div className="mt-1 opacity-70">
                 <Markdown>{thinking}</Markdown>
               </div>
@@ -144,7 +169,10 @@ export function ChatPanel() {
             </div>
           )}
           {!isUser && !streamingFlag && m.chart_spec && (
-            <button onClick={() => addToDashboard(m)} className="mt-2 text-xs px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 border border-slate-600 text-slate-200">
+            <button
+              onClick={() => addToDashboard(m)}
+              className="mt-2 text-xs px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 border border-slate-600 text-slate-200"
+            >
               + Add to dashboard
             </button>
           )}
@@ -157,10 +185,19 @@ export function ChatPanel() {
     <div className="flex h-[calc(100vh-8rem)] border border-slate-800 rounded-2xl bg-slate-900 overflow-hidden">
       {/* Threads sidebar */}
       <div className="w-48 border-r border-slate-800 flex flex-col">
-        <button onClick={newThread} className="m-2 text-sm rounded-lg bg-white text-slate-900 py-2 hover:bg-slate-200 font-medium">+ New chat</button>
+        <button
+          onClick={newThread}
+          className="m-2 text-sm rounded-lg bg-white text-slate-900 py-2 hover:bg-slate-200 font-medium"
+        >
+          + New chat
+        </button>
         <div className="flex-1 overflow-y-auto px-2">
           {threads.map((t) => (
-            <button key={t.id} onClick={() => setActive(t)} className={`w-full text-left text-sm px-2 py-1.5 rounded-lg mb-1 text-slate-300 ${active?.id === t.id ? "bg-slate-800 font-medium text-white" : "hover:bg-slate-800/60"}`}>
+            <button
+              key={t.id}
+              onClick={() => setActive(t)}
+              className={`w-full text-left text-sm px-2 py-1.5 rounded-lg mb-1 text-slate-300 ${active?.id === t.id ? "bg-slate-800 font-medium text-white" : "hover:bg-slate-800/60"}`}
+            >
               {t.title}
             </button>
           ))}
@@ -172,7 +209,9 @@ export function ChatPanel() {
           {messages.map((m) => renderMsg(m))}
           {streaming && renderMsg(streaming, true)}
           {!messages.length && !streaming && (
-            <p className="text-slate-500 text-sm text-center mt-8">Ask a question about the data to get started.</p>
+            <p className="text-slate-500 text-sm text-center mt-8">
+              Ask a question about the data to get started.
+            </p>
           )}
         </div>
         <div className="border-t border-slate-800 p-3 flex gap-2">
@@ -184,7 +223,11 @@ export function ChatPanel() {
             className="flex-1 rounded-lg border border-slate-700 bg-slate-800 text-slate-100 placeholder-slate-500 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
             disabled={busy}
           />
-          <button onClick={send} disabled={busy || !input.trim()} className="rounded-lg bg-white text-slate-900 px-4 py-2 text-sm font-medium hover:bg-slate-200 disabled:opacity-50">
+          <button
+            onClick={send}
+            disabled={busy || !input.trim()}
+            className="rounded-lg bg-white text-slate-900 px-4 py-2 text-sm font-medium hover:bg-slate-200 disabled:opacity-50"
+          >
             {busy ? "…" : "Send"}
           </button>
         </div>

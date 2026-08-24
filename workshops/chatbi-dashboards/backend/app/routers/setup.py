@@ -1,4 +1,5 @@
 """Organizer setup: connect PG source, run introspection, modeling CRUD."""
+
 from __future__ import annotations
 
 from uuid import UUID
@@ -12,7 +13,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.models import PgSource, Workshop
 from app.db.session import get_session
 from app.wren.introspect import introspect_and_write
-from app.wren.project import add_profile, build_project, invalidate_toolkit, project_path_for
+from app.wren.project import add_profile, build_project, project_path_for
 from app.wren.types import pg_type_to_mdl  # noqa: F401  (re-exported for reference)
 
 router = APIRouter(prefix="/workshops/{workshop_id}/setup", tags=["setup"])
@@ -119,19 +120,45 @@ async def set_source_and_introspect(
     src = await session.scalar(select(PgSource).where(PgSource.workshop_id == w.id))
     if src:
         src.host, src.port, src.database, src.user, src.password, src.schema = (
-            body.host, body.port, body.database, body.user, body.password, body.schema_name,
+            body.host,
+            body.port,
+            body.database,
+            body.user,
+            body.password,
+            body.schema_name,
         )
     else:
-        src = PgSource(workshop_id=w.id, host=body.host, port=body.port, database=body.database, user=body.user, password=body.password, schema=body.schema_name)
+        src = PgSource(
+            workshop_id=w.id,
+            host=body.host,
+            port=body.port,
+            database=body.database,
+            user=body.user,
+            password=body.password,
+            schema=body.schema_name,
+        )
         session.add(src)
     await session.commit()
 
     # Register a wren profile for this workshop and introspect + build
     profile_name = f"workshop_{w.id}"
-    add_profile(profile_name, host=body.host, port=body.port, database=body.database, user=body.user, password=body.password)
+    add_profile(
+        profile_name,
+        host=body.host,
+        port=body.port,
+        database=body.database,
+        user=body.user,
+        password=body.password,
+    )
     await introspect_and_write(
-        p, project_name=f"{w.code}_auto",
-        host=body.host, port=body.port, database=body.database, user=body.user, password=body.password, schema=body.schema_name,
+        p,
+        project_name=f"{w.code}_auto",
+        host=body.host,
+        port=body.port,
+        database=body.database,
+        user=body.user,
+        password=body.password,
+        schema=body.schema_name,
     )
     build_project(p)
 
@@ -145,7 +172,12 @@ async def list_models(workshop_id: UUID, session: AsyncSession = Depends(get_ses
 
 
 @router.put("/models/{model_name}", response_model=ModelOut)
-async def update_model(workshop_id: UUID, model_name: str, body: ModelUpdate, session: AsyncSession = Depends(get_session)):
+async def update_model(
+    workshop_id: UUID,
+    model_name: str,
+    body: ModelUpdate,
+    session: AsyncSession = Depends(get_session),
+):
     w = await _load_workshop(workshop_id, session)
     p = _project_path(w)
     meta = p / "models" / model_name / "metadata.yml"
@@ -156,7 +188,13 @@ async def update_model(workshop_id: UUID, model_name: str, body: ModelUpdate, se
         data["description"] = body.description
     meta.write_text(yaml.safe_dump(data, sort_keys=False))
     build_project(p)
-    return ModelOut(name=data.get("name", model_name), description=data.get("description"), table_reference=data.get("table_reference", {}), primary_key=data.get("primary_key"), columns=[ColumnOut(**c) for c in data.get("columns", [])])
+    return ModelOut(
+        name=data.get("name", model_name),
+        description=data.get("description"),
+        table_reference=data.get("table_reference", {}),
+        primary_key=data.get("primary_key"),
+        columns=[ColumnOut(**c) for c in data.get("columns", [])],
+    )
 
 
 @router.get("/relationships", response_model=list[RelationshipOut])
@@ -166,7 +204,9 @@ async def list_relationships(workshop_id: UUID, session: AsyncSession = Depends(
 
 
 @router.post("/relationships", response_model=list[RelationshipOut])
-async def add_relationship(workshop_id: UUID, body: RelationshipCreate, session: AsyncSession = Depends(get_session)):
+async def add_relationship(
+    workshop_id: UUID, body: RelationshipCreate, session: AsyncSession = Depends(get_session)
+):
     w = await _load_workshop(workshop_id, session)
     p = _project_path(w)
     f = p / "relationships.yml"
@@ -179,7 +219,9 @@ async def add_relationship(workshop_id: UUID, body: RelationshipCreate, session:
 
 
 @router.delete("/relationships/{name}", response_model=list[RelationshipOut])
-async def delete_relationship(workshop_id: UUID, name: str, session: AsyncSession = Depends(get_session)):
+async def delete_relationship(
+    workshop_id: UUID, name: str, session: AsyncSession = Depends(get_session)
+):
     w = await _load_workshop(workshop_id, session)
     p = _project_path(w)
     f = p / "relationships.yml"

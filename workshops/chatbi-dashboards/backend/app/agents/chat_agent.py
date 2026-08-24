@@ -1,4 +1,5 @@
 """Build the Wren + LLM chat agent and stream its events as SSE dicts."""
+
 from __future__ import annotations
 
 import ast
@@ -165,9 +166,7 @@ async def stream_chat(agent, messages: list) -> AsyncIterator[dict]:
                             # literal_eval can't parse — strip them to plain
                             # strings first.
                             try:
-                                cleaned = re.sub(
-                                    r"Decimal\('([^']*)'\)", r"'\1'", raw
-                                )
+                                cleaned = re.sub(r"Decimal\('([^']*)'\)", r"'\1'", raw)
                                 payload = ast.literal_eval(cleaned)
                             except (ValueError, SyntaxError):
                                 payload = None
