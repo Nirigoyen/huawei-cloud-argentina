@@ -56,3 +56,4 @@ Ver `docs/deploy-guide.md` para el paso a paso. Resumen: cada workshop tiene un 
 3. **Seguí las convenciones** de naming y commits.
 4. **Verificá que todo compile y pase lint** antes de commitear.
 5. **Idioma**: escribí docs y comentarios en español. Código en inglés (nombres de variables, funciones).
+6. **Sin branding de IA**: no incluyas en ningún lado menciones como "hecho con Claude", "built with Claude Code", "Co-Authored-By: Claude", ni nada similar. Ninguna herramienta de IA debe figurar como colaborador en commits, PRs, issues, badges, o metadata del repositorio.

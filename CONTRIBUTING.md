@@ -7,7 +7,8 @@
 1. **Todo el desarrollo se hace con agentes de IA.** Leé `CLAUDE.md` para el contexto general antes de empezar.
 2. **Cada workshop/demo/benchmark es self-contained.** Debe tener su propio `README.md`, `docker-compose.yml` (si aplica), y `.env.example`.
 3. **No commitear secrets.** Los archivos `.env` están gitignored. Usar `.env.example` con valores placeholder.
-4. **Idioma:** Documentación en español. README del repo es trilingüe (ES/EN/ZH). Nombres de variables y funciones en inglés.
+4. **Sin menciones a herramientas de IA.** No incluir en ningún lugar del repositorio frases como "hecho con Claude", "built with Claude Code", "Co-Authored-By: Claude", ni ninguna referencia similar. Ninguna herramienta de IA debe figurar como colaborador en commits, PRs, issues, badges, o cualquier metadata del repositorio.
+5. **Idioma:** Documentación en español. README del repo es trilingüe (ES/EN/ZH). Nombres de variables y funciones en inglés.
 
 ## Estructura de directorios
 
@@ -36,7 +37,6 @@ benchmarks/<nombre-benchmark>/
 - Type hints obligatorias en todas las funciones públicas
 - Linter: `ruff` (config en `ruff.toml`)
 - Formatear: `ruff format`
-- Line length: 100
 
 ### TypeScript/React
 - Linter: `eslint` (config en `eslint.config.mjs`)

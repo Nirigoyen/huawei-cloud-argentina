@@ -32,9 +32,6 @@ def load_dataset(path: str, batch_size: int = 32) -> list[dict]:
 Configuración de ruff en `pyproject.toml` o `ruff.toml`:
 
 ```toml
-[tool.ruff]
-line-length = 100
-
 [tool.ruff.linter]
 select = ["E", "F", "I", "UP", "B", "SIM"]
 ```
@@ -45,8 +42,6 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 - **UP**: pyupgrade (sintaxis moderna)
 - **B**: flake8-bugbear (bugs comunes)
 - **SIM**: flake8-simplify (simplificaciones)
-
-Longitud de línea: **100 caracteres**.
 
 ## TypeScript
 
@@ -66,14 +61,12 @@ Configuración de Prettier (`.prettierrc`):
 ```json
 {
   "semi": true,
-  "printWidth": 100,
   "singleQuote": true,
   "trailingComma": "all"
 }
 ```
 
 - **Punto y coma**: `true` (siempre al final de sentencias)
-- **Ancho de línea**: **100 caracteres**
 - **Comillas simples**: `true`
 - **Coma trailing**: `all`
 
@@ -181,6 +174,12 @@ openssl rand -hex 32
 - **Código**: En inglés. Nombres de variables, funciones, clases, comentarios en código y docstrings van en inglés.
 - **Commits**: En español (descripción del cambio).
 - **Issues y PRs**: En español.
+
+## Sin Branding de Herramientas de IA
+
+- **No incluir** en ningún lugar del repositorio menciones como "hecho con Claude", "built with Claude Code", "Co-Authored-By: Claude", o cualquier referencia similar a herramientas de IA.
+- **Ninguna herramienta de IA debe figurar como colaborador** en commits, PRs, issues, badges, o cualquier metadata del repositorio.
+- Esto aplica a: README, badges, commit messages, PR descriptions, issues, comentarios en código, y cualquier otro contenido del repositorio.
 
 ## Docker
 
