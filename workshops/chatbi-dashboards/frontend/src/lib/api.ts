@@ -3,14 +3,88 @@
 export const API = process.env.NEXT_PUBLIC_API_URL || "/api";
 
 // ---- Types ----
-export interface Workshop { id: string; name: string; code: string; has_source: boolean; }
-export interface Column { name: string; type: string; }
-export interface Model { name: string; description?: string; table_reference: any; primary_key?: string; columns: Column[]; }
-export interface Relationship { name: string; models: string[]; join_type: string; condition: string; }
-export interface Thread { id: string; title: string; }
-export interface Message { id: string; role: string; content?: string; sql?: string; chart_spec?: any; }
-export interface Item { id: string; title: string; sql?: string; chart_spec?: any; layout: any; }
-export interface Dashboard { id: string; name: string; items: Item[]; }
+export interface Workshop {
+  id: string;
+  name: string;
+  code: string;
+  has_source: boolean;
+}
+export interface Column {
+  name: string;
+  type: string;
+}
+export interface TableReference {
+  schema?: string;
+  table?: string;
+  [key: string]: unknown;
+}
+export interface Model {
+  name: string;
+  description?: string;
+  table_reference: TableReference;
+  primary_key?: string;
+  columns: Column[];
+}
+export interface Relationship {
+  name: string;
+  models: string[];
+  join_type: string;
+  condition: string;
+}
+export interface Thread {
+  id: string;
+  title: string;
+}
+export interface ChartSpec {
+  title?: string | { text?: string };
+  height?: number | string;
+  width?: number | string;
+  [key: string]: unknown;
+}
+export interface ItemLayout {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+export interface Message {
+  id: string;
+  role: string;
+  content?: string;
+  sql?: string;
+  chart_spec?: ChartSpec;
+}
+export interface Item {
+  id: string;
+  title: string;
+  sql?: string;
+  chart_spec?: ChartSpec;
+  layout: ItemLayout;
+}
+export interface Dashboard {
+  id: string;
+  name: string;
+  items: Item[];
+}
+export interface SourceConfig {
+  host: string;
+  port: number;
+  database: string;
+  user: string;
+  password: string;
+  schema: string;
+}
+export type StreamEvent =
+  | { type: "thinking" | "token" | "sql" | "error"; content: string }
+  | { type: "data"; content: unknown }
+  | { type: "chart"; content: ChartSpec }
+  | { type: "done"; content?: unknown };
+export interface NewItem {
+  title: string;
+  sql?: string;
+  chart_spec?: ChartSpec;
+  layout: ItemLayout;
+}
 
 async function j<T>(res: Promise<Response> | Response): Promise<T> {
   const r = await res;
@@ -20,29 +94,71 @@ async function j<T>(res: Promise<Response> | Response): Promise<T> {
 
 // ---- Workshops / setup (organizer) ----
 export const createWorkshop = (name: string, code: string) =>
-  j<Workshop>(fetch(`${API}/workshops`, { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "include", body: JSON.stringify({ name, code }) }));
+  j<Workshop>(
+    fetch(`${API}/workshops`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ name, code }),
+    }),
+  );
 
-export const getWorkshop = (code: string) => j<Workshop>(fetch(`${API}/workshops/${code}`, { credentials: "include" }));
+export const getWorkshop = (code: string) =>
+  j<Workshop>(fetch(`${API}/workshops/${code}`, { credentials: "include" }));
 
-export const setupSource = (workshopId: string, src: any) =>
-  j<{ models: Model[]; relationships: Relationship[] }>(fetch(`${API}/workshops/${workshopId}/setup/source`, { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "include", body: JSON.stringify({ ...src, schema: src.schema ?? "public" }) }));
+export const setupSource = (workshopId: string, src: SourceConfig) =>
+  j<{ models: Model[]; relationships: Relationship[] }>(
+    fetch(`${API}/workshops/${workshopId}/setup/source`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ ...src, schema: src.schema ?? "public" }),
+    }),
+  );
 
-export const listModels = (workshopId: string) => j<Model[]>(fetch(`${API}/workshops/${workshopId}/setup/models`, { credentials: "include" }));
-export const listRelationships = (workshopId: string) => j<Relationship[]>(fetch(`${API}/workshops/${workshopId}/setup/relationships`, { credentials: "include" }));
+export const listModels = (workshopId: string) =>
+  j<Model[]>(fetch(`${API}/workshops/${workshopId}/setup/models`, { credentials: "include" }));
+export const listRelationships = (workshopId: string) =>
+  j<Relationship[]>(
+    fetch(`${API}/workshops/${workshopId}/setup/relationships`, { credentials: "include" }),
+  );
 
 export const getGallery = (code: string) =>
-  j<{ workshop: Workshop; participants: { id: string; name: string; dashboards: Dashboard[] }[] }>(fetch(`${API}/workshops/${code}/gallery`, { credentials: "include" }));
+  j<{ workshop: Workshop; participants: { id: string; name: string; dashboards: Dashboard[] }[] }>(
+    fetch(`${API}/workshops/${code}/gallery`, { credentials: "include" }),
+  );
 
 // ---- Participants ----
 export const join = (code: string, name: string) =>
-  j<{ participant_id: string; workshop_id: string; workshop_name: string; workshop_code: string }>(fetch(`${API}/participants/join`, { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "include", body: JSON.stringify({ code, name }) }));
+  j<{ participant_id: string; workshop_id: string; workshop_name: string; workshop_code: string }>(
+    fetch(`${API}/participants/join`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ code, name }),
+    }),
+  );
 
 // ---- Chat ----
-export const listThreads = () => j<Thread[]>(fetch(`${API}/chat/threads`, { credentials: "include" }));
-export const createThread = (title = "New chat") => j<Thread>(fetch(`${API}/chat/threads`, { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "include", body: JSON.stringify({ title }) }));
-export const listMessages = (tid: string) => j<Message[]>(fetch(`${API}/chat/threads/${tid}/messages`, { credentials: "include" }));
+export const listThreads = () =>
+  j<Thread[]>(fetch(`${API}/chat/threads`, { credentials: "include" }));
+export const createThread = (title = "New chat") =>
+  j<Thread>(
+    fetch(`${API}/chat/threads`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ title }),
+    }),
+  );
+export const listMessages = (tid: string) =>
+  j<Message[]>(fetch(`${API}/chat/threads/${tid}/messages`, { credentials: "include" }));
 
-export async function streamChat(threadId: string, content: string, onEvent: (ev: any) => void) {
+export async function streamChat(
+  threadId: string,
+  content: string,
+  onEvent: (ev: StreamEvent) => void,
+) {
   const res = await fetch(`${API}/chat/threads/${threadId}/messages`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -61,17 +177,52 @@ export async function streamChat(threadId: string, content: string, onEvent: (ev
     buffer = parts.pop() || "";
     for (const part of parts) {
       if (part.startsWith("data: ")) {
-        try { onEvent(JSON.parse(part.slice(6))); } catch { /* skip */ }
+        try {
+          onEvent(JSON.parse(part.slice(6)));
+        } catch {
+          /* skip */
+        }
       }
     }
   }
 }
 
 // ---- Dashboards ----
-export const listDashboards = () => j<Dashboard[]>(fetch(`${API}/me/dashboards`, { credentials: "include" }));
-export const createDashboard = (name = "Untitled dashboard") => j<Dashboard>(fetch(`${API}/me/dashboards`, { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "include", body: JSON.stringify({ name }) }));
-export const getDashboard = (id: string) => j<Dashboard>(fetch(`${API}/me/dashboards/${id}`, { credentials: "include" }));
-export const deleteDashboard = (id: string) => fetch(`${API}/me/dashboards/${id}`, { method: "DELETE", credentials: "include" });
-export const addItem = (did: string, item: any) => j<Item>(fetch(`${API}/me/dashboards/${did}/items`, { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "include", body: JSON.stringify(item) }));
-export const updateItemLayout = (did: string, itemId: string, layout: any) => j<Item>(fetch(`${API}/me/dashboards/${did}/items/${itemId}`, { method: "PUT", headers: { "Content-Type": "application/json" }, credentials: "include", body: JSON.stringify({ layout }) }));
-export const deleteItem = (did: string, itemId: string) => fetch(`${API}/me/dashboards/${did}/items/${itemId}`, { method: "DELETE", credentials: "include" });
+export const listDashboards = () =>
+  j<Dashboard[]>(fetch(`${API}/me/dashboards`, { credentials: "include" }));
+export const createDashboard = (name = "Untitled dashboard") =>
+  j<Dashboard>(
+    fetch(`${API}/me/dashboards`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ name }),
+    }),
+  );
+export const getDashboard = (id: string) =>
+  j<Dashboard>(fetch(`${API}/me/dashboards/${id}`, { credentials: "include" }));
+export const deleteDashboard = (id: string) =>
+  fetch(`${API}/me/dashboards/${id}`, { method: "DELETE", credentials: "include" });
+export const addItem = (did: string, item: NewItem) =>
+  j<Item>(
+    fetch(`${API}/me/dashboards/${did}/items`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(item),
+    }),
+  );
+export const updateItemLayout = (did: string, itemId: string, layout: ItemLayout) =>
+  j<Item>(
+    fetch(`${API}/me/dashboards/${did}/items/${itemId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ layout }),
+    }),
+  );
+export const deleteItem = (did: string, itemId: string) =>
+  fetch(`${API}/me/dashboards/${did}/items/${itemId}`, {
+    method: "DELETE",
+    credentials: "include",
+  });

@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import type { Result, VisualizationSpec } from "vega-embed";
+import type { ChartSpec } from "@/lib/api";
 
 // Dark theme config for Vega-Lite charts so axes/labels read on a dark bg.
 const DARK_CONFIG = {
@@ -30,11 +32,11 @@ const DARK_CONFIG = {
  * - `fill` (dashboard): chart absolutely fills its positioned parent and redraws on resize.
  * - no `fill` (chat): chart is responsive in width, fixed height (spec or 280px).
  */
-export function ChartAnswer({ spec, fill }: { spec: any; fill?: boolean }) {
+export function ChartAnswer({ spec, fill }: { spec: ChartSpec; fill?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let view: any;
+    let view: Result | undefined;
     let ro: ResizeObserver | null = null;
     let resizeTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -46,8 +48,8 @@ export function ChartAnswer({ spec, fill }: { spec: any; fill?: boolean }) {
         const responsiveSpec = {
           ...spec,
           width: "container",
-          height: fill ? "container" : spec.height ?? 280,
-        };
+          height: fill ? "container" : (spec.height ?? 280),
+        } as unknown as VisualizationSpec;
         view = await embed(ref.current, responsiveSpec, {
           actions: false,
           renderer: "svg",
@@ -62,7 +64,7 @@ export function ChartAnswer({ spec, fill }: { spec: any; fill?: boolean }) {
             if (resizeTimer) clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
               try {
-                view?.resize()?.run();
+                view?.view.resize().run();
               } catch {
                 /* ignore */
               }

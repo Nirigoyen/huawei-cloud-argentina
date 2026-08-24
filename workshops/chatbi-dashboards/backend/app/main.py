@@ -1,4 +1,5 @@
 """FastAPI application entrypoint."""
+
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
@@ -35,9 +36,15 @@ async def health() -> dict:
 # Routers are registered here as they are implemented.
 def _register_routers() -> None:
     try:
-        from app.routers import participants, chat, dashboards, workshops, setup
+        from app.routers import chat, dashboards, participants, setup, workshops
 
-        for r in (workshops.router, setup.router, participants.router, chat.router, dashboards.router):
+        for r in (
+            workshops.router,
+            setup.router,
+            participants.router,
+            chat.router,
+            dashboards.router,
+        ):
             app.include_router(r)
     except ImportError:
         # Routers not implemented yet; app still boots for /health.

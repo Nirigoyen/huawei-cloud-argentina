@@ -4,6 +4,7 @@ There is no built-in `wren` command for DB→MDL introspection (verified), so we
 query information_schema + pg_catalog and write models/<table>/metadata.yml +
 relationships.yml + wren_project.yml, then `wren context build` compiles them.
 """
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -50,7 +51,9 @@ async def fetch_schema_info(
     password: str,
     schema: str = "public",
 ) -> SchemaInfo:
-    conn = await asyncpg.connect(host=host, port=port, database=database, user=user, password=password)
+    conn = await asyncpg.connect(
+        host=host, port=port, database=database, user=user, password=password
+    )
     try:
         # Tables
         tables = [
@@ -73,7 +76,11 @@ async def fetch_schema_info(
         for r in col_rows:
             if r["table_name"] in columns:
                 columns[r["table_name"]].append(
-                    Column(name=r["column_name"], data_type=r["data_type"], is_nullable=r["is_nullable"] == "YES")
+                    Column(
+                        name=r["column_name"],
+                        data_type=r["data_type"],
+                        is_nullable=r["is_nullable"] == "YES",
+                    )
                 )
 
         # Primary keys (single-column only)
@@ -102,7 +109,10 @@ async def fetch_schema_info(
                WHERE tc.constraint_type = 'FOREIGN KEY' AND tc.table_schema = $1""",
             schema,
         )
-        foreign_keys = [ForeignKey(r["from_table"], r["from_column"], r["to_table"], r["to_column"]) for r in fk_rows]
+        foreign_keys = [
+            ForeignKey(r["from_table"], r["from_column"], r["to_table"], r["to_column"])
+            for r in fk_rows
+        ]
 
         return SchemaInfo(
             schema=schema,
@@ -148,7 +158,8 @@ def write_project(
             "description": f"Auto-generated from table {info.schema}.{table}.",
             "table_reference": {"schema": info.schema, "table": table},
             "columns": [
-                {"name": c.name, "type": pg_type_to_mdl(c.data_type)} for c in info.columns.get(table, [])
+                {"name": c.name, "type": pg_type_to_mdl(c.data_type)}
+                for c in info.columns.get(table, [])
             ],
         }
         pk = info.primary_keys.get(table)

@@ -1,4 +1,5 @@
 """Chat threads + streaming SSE endpoint."""
+
 from __future__ import annotations
 
 import json
@@ -43,13 +44,24 @@ class SendMessage(BaseModel):
 
 
 @router.get("/threads", response_model=list[ThreadOut])
-async def list_threads(participant: Participant = Depends(get_current_participant), session: AsyncSession = Depends(get_session)):
-    rows = await session.scalars(select(Thread).where(Thread.participant_id == participant.id).order_by(Thread.created_at.desc()))
+async def list_threads(
+    participant: Participant = Depends(get_current_participant),
+    session: AsyncSession = Depends(get_session),
+):
+    rows = await session.scalars(
+        select(Thread)
+        .where(Thread.participant_id == participant.id)
+        .order_by(Thread.created_at.desc())
+    )
     return [ThreadOut(id=t.id, title=t.title) for t in rows]
 
 
 @router.post("/threads", response_model=ThreadOut)
-async def create_thread(body: ThreadCreate, participant: Participant = Depends(get_current_participant), session: AsyncSession = Depends(get_session)):
+async def create_thread(
+    body: ThreadCreate,
+    participant: Participant = Depends(get_current_participant),
+    session: AsyncSession = Depends(get_session),
+):
     t = Thread(participant_id=participant.id, title=body.title)
     session.add(t)
     await session.commit()
@@ -59,7 +71,9 @@ async def create_thread(body: ThreadCreate, participant: Participant = Depends(g
 
 async def _load_owned_thread(tid: UUID, participant: Participant, session: AsyncSession) -> Thread:
     t = await session.scalar(
-        select(Thread).where(Thread.id == tid, Thread.participant_id == participant.id).options(selectinload(Thread.messages))
+        select(Thread)
+        .where(Thread.id == tid, Thread.participant_id == participant.id)
+        .options(selectinload(Thread.messages))
     )
     if not t:
         raise HTTPException(404, "Thread not found")
@@ -67,9 +81,16 @@ async def _load_owned_thread(tid: UUID, participant: Participant, session: Async
 
 
 @router.get("/threads/{tid}/messages", response_model=list[MessageOut])
-async def list_messages(tid: UUID, participant: Participant = Depends(get_current_participant), session: AsyncSession = Depends(get_session)):
+async def list_messages(
+    tid: UUID,
+    participant: Participant = Depends(get_current_participant),
+    session: AsyncSession = Depends(get_session),
+):
     t = await _load_owned_thread(tid, participant, session)
-    return [MessageOut(id=m.id, role=m.role, content=m.content, sql=m.sql, chart_spec=m.chart_spec) for m in t.messages]
+    return [
+        MessageOut(id=m.id, role=m.role, content=m.content, sql=m.sql, chart_spec=m.chart_spec)
+        for m in t.messages
+    ]
 
 
 @router.post("/threads/{tid}/messages")
@@ -112,7 +133,15 @@ async def send_message(
                 last_chart = ev.get("content")
         # Persist the assistant turn.
         async with SessionLocal() as s:
-            s.add(Message(thread_id=t.id, role="assistant", content="".join(text_parts) or None, sql=last_sql, chart_spec=last_chart))
+            s.add(
+                Message(
+                    thread_id=t.id,
+                    role="assistant",
+                    content="".join(text_parts) or None,
+                    sql=last_sql,
+                    chart_spec=last_chart,
+                )
+            )
             await s.commit()
 
     return StreamingResponse(event_stream(), media_type="text/event-stream")

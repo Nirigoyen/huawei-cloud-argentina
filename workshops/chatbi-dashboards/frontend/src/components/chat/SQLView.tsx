@@ -7,7 +7,10 @@ export function SQLView({ sql }: { sql: string }) {
   if (!sql) return null;
   return (
     <div className="mt-2">
-      <button onClick={() => setOpen((o) => !o)} className="text-xs text-slate-400 hover:text-slate-200 underline">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="text-xs text-slate-400 hover:text-slate-200 underline"
+      >
         {open ? "Hide SQL" : "View SQL"}
       </button>
       {open && (

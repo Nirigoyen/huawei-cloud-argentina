@@ -1,4 +1,5 @@
 """Manage Wren projects, connection profiles, and toolkit singletons."""
+
 from __future__ import annotations
 
 import os
@@ -30,6 +31,7 @@ def project_path_for(workshop_id: str) -> Path:
 # --------------------------------------------------------------------------- #
 # Profiles
 # --------------------------------------------------------------------------- #
+
 
 def add_profile(
     name: str,
@@ -73,6 +75,7 @@ def remove_profile(name: str) -> None:
 # --------------------------------------------------------------------------- #
 # Build
 # --------------------------------------------------------------------------- #
+
 
 def build_project(project_path: Path) -> str:
     """Run `wren context build` to compile YAML -> target/mdl.json."""

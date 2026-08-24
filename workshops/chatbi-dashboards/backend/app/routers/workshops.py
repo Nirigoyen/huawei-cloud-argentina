@@ -1,4 +1,5 @@
 """Organizer endpoints: create workshop, list participants, gallery."""
+
 from __future__ import annotations
 
 from uuid import UUID
@@ -82,7 +83,9 @@ async def get_workshop(code: str, session: AsyncSession = Depends(get_session)):
 @router.get("/{code}/participants", response_model=list[ParticipantOut])
 async def list_participants(code: str, session: AsyncSession = Depends(get_session)):
     w = await _load_workshop(code, session)
-    rows = await session.scalars(select(Participant).where(Participant.workshop_id == w.id).order_by(Participant.created_at))
+    rows = await session.scalars(
+        select(Participant).where(Participant.workshop_id == w.id).order_by(Participant.created_at)
+    )
     return [ParticipantOut(id=p.id, name=p.name) for p in rows]
 
 
@@ -99,8 +102,23 @@ async def gallery(code: str, session: AsyncSession = Depends(get_session)):
     out = []
     for p in parts:
         dbs = [
-            DashboardOut(id=d.id, name=d.name, items=[{"id": str(i.id), "title": i.title, "layout": i.layout, "chart_spec": i.chart_spec} for i in d.items])
+            DashboardOut(
+                id=d.id,
+                name=d.name,
+                items=[
+                    {
+                        "id": str(i.id),
+                        "title": i.title,
+                        "layout": i.layout,
+                        "chart_spec": i.chart_spec,
+                    }
+                    for i in d.items
+                ],
+            )
             for d in p.dashboards
         ]
         out.append(GalleryParticipant(id=p.id, name=p.name, dashboards=dbs))
-    return GalleryOut(workshop=WorkshopOut(id=w.id, name=w.name, code=w.code, has_source=has_source), participants=out)
+    return GalleryOut(
+        workshop=WorkshopOut(id=w.id, name=w.name, code=w.code, has_source=has_source),
+        participants=out,
+    )
