@@ -14,8 +14,10 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install ruff
-      - run: ruff check workshops/chatbi-dashboards/backend/
-      - run: ruff format --check workshops/chatbi-dashboards/backend/
+      - working-directory: workshops/chatbi-dashboards/backend
+        run: ruff check .
+      - working-directory: workshops/chatbi-dashboards/backend
+        run: ruff format --check .
 
   lint-frontend:
     name: Lint Frontend (eslint + prettier)
