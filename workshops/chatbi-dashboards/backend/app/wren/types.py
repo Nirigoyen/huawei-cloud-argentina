@@ -1,7 +1,9 @@
 """Map PostgreSQL data types to Wren MDL types."""
+
 from __future__ import annotations
 
-# MDL accepts: integer, bigint, double, varchar, boolean, date, timestamp (others fall back to varchar).
+# MDL accepts: integer, bigint, double, varchar, boolean, date, timestamp
+# (others fall back to varchar).
 _MAP = {
     # integers
     "smallint": "integer",

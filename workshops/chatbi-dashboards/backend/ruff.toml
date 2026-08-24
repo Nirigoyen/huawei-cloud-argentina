@@ -3,3 +3,4 @@ target-version = "py312"
 
 [lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["B008"]  # FastAPI Depends() in default args is idiomatic, not a bug

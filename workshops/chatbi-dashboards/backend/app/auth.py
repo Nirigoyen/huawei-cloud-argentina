@@ -1,4 +1,5 @@
 """Participant session auth via signed cookie (workshop code + name)."""
+
 from __future__ import annotations
 
 import hashlib
@@ -25,7 +26,9 @@ def _verify(token: str) -> str | None:
         payload, sig = token.rsplit(".", 1)
     except ValueError:
         return None
-    expected = hmac.new(settings.session_secret.encode(), payload.encode(), hashlib.sha256).hexdigest()
+    expected = hmac.new(
+        settings.session_secret.encode(), payload.encode(), hashlib.sha256
+    ).hexdigest()
     return payload if hmac.compare_digest(sig, expected) else None
 
 

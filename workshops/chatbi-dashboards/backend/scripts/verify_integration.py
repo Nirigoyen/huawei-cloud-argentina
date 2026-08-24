@@ -3,6 +3,7 @@
 De-risks the core integration before building the app on top.
 Run: .venv/bin/python verify_integration.py
 """
+
 from __future__ import annotations
 
 import asyncio
@@ -54,7 +55,9 @@ async def main() -> None:
     print(f"✓ wren_dry_plan -> {str(res)[:400]}")
 
     # 5. wren_query (hits postgres)
-    res = tools_by_name["wren_query"].invoke({"sql": "SELECT status, count(*) AS n FROM orders GROUP BY status", "limit": 10})
+    res = tools_by_name["wren_query"].invoke(
+        {"sql": "SELECT status, count(*) AS n FROM orders GROUP BY status", "limit": 10}
+    )
     print(f"✓ wren_query -> {str(res)[:500]}")
 
     # 6. ChatOpenAI(base_url) construction (no real call)
