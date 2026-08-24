@@ -1,6 +1,6 @@
 # Huawei Cloud Argentina — Repositorio Oficial / Official Repository / 官方仓库
 
-[![Private Repository](https://img.shields.io/badge/repo-private-red.svg)]()
+[![Public Repository](https://img.shields.io/badge/repo-public-green.svg)]()
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 > Repositorio oficial del equipo de **Huawei Cloud Argentina**.
