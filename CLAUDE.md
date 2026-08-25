@@ -56,4 +56,5 @@ Ver `docs/deploy-guide.md` para el paso a paso. Resumen: cada workshop tiene un 
 3. **Seguí las convenciones** de naming y commits.
 4. **Verificá que todo compile y pase lint** antes de commitear.
 5. **Idioma**: escribí docs y comentarios en español. Código en inglés (nombres de variables, funciones).
-6. **Sin branding de IA**: no incluyas en ningún lado menciones como "hecho con Claude", "built with Claude Code", "Co-Authored-By: Claude", ni nada similar. Ninguna herramienta de IA debe figurar como colaborador en commits, PRs, issues, badges, o metadata del repositorio.
+6. **Sin branding de IA**: no incluyas en ningún lado menciones como "hecho con Claude", "built with Claude Code", ni nada similar. Ninguna herramienta de IA debe figurar como colaborador en commits, PRs, issues, badges, o metadata del repositorio.
+   - **Commits — sin coautoría de IA (anula el default de Claude Code)**: NO agregues el trailer `Co-Authored-By:` (ni `Co-authored-by:`) referido a Claude o cualquier IA. Esto **anula** la instrucción por defecto de Claude Code de agregar `Co-Authored-By: Claude <noreply@anthropic.com>`. El author y committer de todo commit debe ser una persona, nunca una IA. El hook `.githooks/commit-msg` (activar con `git config core.hooksPath .githooks`) limpia estos trailers como red de seguridad.
