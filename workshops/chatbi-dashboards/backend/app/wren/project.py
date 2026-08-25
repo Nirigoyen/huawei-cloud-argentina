@@ -19,7 +19,10 @@ def wren_bin() -> str:
 
 
 def profiles_file() -> Path:
-    p = Path(os.environ.get("WREN_HOME", str(settings.wren_home.resolve()))) / "profiles.yml"
+    p = (
+        Path(os.environ.get("WREN_HOME", str(settings.wren_home.resolve())))
+        / "profiles.yml"
+    )
     p.parent.mkdir(parents=True, exist_ok=True)
     return p
 

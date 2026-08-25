@@ -32,7 +32,10 @@ def _tool_call(name: str, args: dict) -> JSONResponse:
                             {
                                 "id": "call_" + uuid.uuid4().hex[:8],
                                 "type": "function",
-                                "function": {"name": name, "arguments": json.dumps(args)},
+                                "function": {
+                                    "name": name,
+                                    "arguments": json.dumps(args),
+                                },
                             }
                         ],
                     },
@@ -79,7 +82,10 @@ async def completions(req: Request):
     if not has_tool_result:
         return _tool_call(
             "wren_query",
-            {"sql": "SELECT status, count(*) AS n FROM orders GROUP BY status", "limit": 10},
+            {
+                "sql": "SELECT status, count(*) AS n FROM orders GROUP BY status",
+                "limit": 10,
+            },
         )
     if not has_render:
         spec = {
@@ -97,9 +103,12 @@ async def completions(req: Request):
                 ]
             },
         }
-        return _tool_call("render_chart", {"spec": json.dumps(spec), "title": "Orders by status"})
+        return _tool_call(
+            "render_chart", {"spec": json.dumps(spec), "title": "Orders by status"}
+        )
     return _text(
-        "There are 6 completed, 1 cancelled, and 1 pending order. Completed orders dominate."
+        "There are 6 completed, 1 cancelled, and 1 pending order. "
+        "Completed orders dominate."
     )
 
 

@@ -32,7 +32,13 @@ const DARK_CONFIG = {
  * - `fill` (dashboard): chart absolutely fills its positioned parent and redraws on resize.
  * - no `fill` (chat): chart is responsive in width, fixed height (spec or 280px).
  */
-export function ChartAnswer({ spec, fill }: { spec: ChartSpec; fill?: boolean }) {
+export function ChartAnswer({
+  spec,
+  fill,
+}: {
+  spec: ChartSpec;
+  fill?: boolean;
+}) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

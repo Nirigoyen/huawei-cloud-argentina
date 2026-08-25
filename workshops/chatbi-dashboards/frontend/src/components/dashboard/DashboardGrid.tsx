@@ -63,7 +63,9 @@ export function DashboardGrid({
           className="border border-slate-800 rounded-xl bg-slate-900 p-3 overflow-hidden flex flex-col"
         >
           <div className="drag-handle flex items-center justify-between mb-2 cursor-move">
-            <span className="text-sm font-medium truncate text-slate-100">{it.title}</span>
+            <span className="text-sm font-medium truncate text-slate-100">
+              {it.title}
+            </span>
             <button
               onClick={() => onDeleteItem(it.id)}
               className="text-slate-500 hover:text-red-400 text-sm ml-2"

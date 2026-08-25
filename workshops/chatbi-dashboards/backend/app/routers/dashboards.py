@@ -150,13 +150,17 @@ async def update_item(
     session: AsyncSession = Depends(get_session),
 ):
     item = await session.scalar(
-        select(DashboardItem).where(DashboardItem.id == item_id, DashboardItem.dashboard_id == did)
+        select(DashboardItem).where(
+            DashboardItem.id == item_id, DashboardItem.dashboard_id == did
+        )
     )
     if not item:
         raise HTTPException(404, "Item not found")
     # Verify ownership
     d = await session.scalar(
-        select(Dashboard).where(Dashboard.id == did, Dashboard.participant_id == participant.id)
+        select(Dashboard).where(
+            Dashboard.id == did, Dashboard.participant_id == participant.id
+        )
     )
     if not d:
         raise HTTPException(404, "Dashboard not found")
@@ -175,7 +179,9 @@ async def delete_item(
 ):
     d = await _load_owned_dashboard(did, participant, session)
     item = await session.scalar(
-        select(DashboardItem).where(DashboardItem.id == item_id, DashboardItem.dashboard_id == d.id)
+        select(DashboardItem).where(
+            DashboardItem.id == item_id, DashboardItem.dashboard_id == d.id
+        )
     )
     if item:
         await session.delete(item)

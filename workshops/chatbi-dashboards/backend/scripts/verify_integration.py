@@ -51,7 +51,9 @@ async def main() -> None:
     print(f"✓ wren_list_models -> {str(res)[:300]}")
 
     # 4. wren_dry_plan (no DB needed)
-    res = tools_by_name["wren_dry_plan"].invoke({"sql": "SELECT count(*) AS n FROM orders"})
+    res = tools_by_name["wren_dry_plan"].invoke(
+        {"sql": "SELECT count(*) AS n FROM orders"}
+    )
     print(f"✓ wren_dry_plan -> {str(res)[:400]}")
 
     # 5. wren_query (hits postgres)
@@ -82,10 +84,14 @@ async def main() -> None:
         )
         print(f"✓ langchain.agents.create_agent constructed: {type(agent).__name__}")
     except ImportError as e:
-        print(f"  langchain.agents.create_agent not available ({e}), trying langgraph...")
+        print(
+            f"  langchain.agents.create_agent not available ({e}), trying langgraph..."
+        )
         from langgraph.prebuilt import create_react_agent
 
-        agent = create_react_agent(model=chat_model, tools=tools, prompt=toolkit.system_prompt())
+        agent = create_react_agent(
+            model=chat_model, tools=tools, prompt=toolkit.system_prompt()
+        )
         print(f"✓ langgraph.create_react_agent constructed: {type(agent).__name__}")
 
     print("\n=== ALL CHECKS PASSED ===")

@@ -12,7 +12,11 @@ import {
 } from "@/lib/api";
 import { ChatPanel } from "@/components/chat/ChatPanel";
 
-export default function WorkshopHome({ params }: { params: Promise<{ code: string }> }) {
+export default function WorkshopHome({
+  params,
+}: {
+  params: Promise<{ code: string }>;
+}) {
   const { code } = use(params);
   const [workshop, setWorkshop] = useState<Workshop | null>(null);
   const [dashboards, setDashboards] = useState<Dashboard[]>([]);
@@ -41,10 +45,15 @@ export default function WorkshopHome({ params }: { params: Promise<{ code: strin
     <main className="min-h-screen p-6">
       <header className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-xl font-bold text-white">{workshop?.name || "Workshop"}</h1>
+          <h1 className="text-xl font-bold text-white">
+            {workshop?.name || "Workshop"}
+          </h1>
           <p className="text-sm text-slate-400">Code: {code}</p>
         </div>
-        <Link href="/" className="text-sm text-slate-400 hover:text-white hover:underline">
+        <Link
+          href="/"
+          className="text-sm text-slate-400 hover:text-white hover:underline"
+        >
           Leave
         </Link>
       </header>
@@ -70,7 +79,8 @@ export default function WorkshopHome({ params }: { params: Promise<{ code: strin
                     href={`/workshop/${code}/dashboard/${d.id}`}
                     className="block text-sm px-2 py-1.5 rounded-lg hover:bg-slate-800 text-slate-200"
                   >
-                    {d.name} <span className="text-slate-500">({d.items.length})</span>
+                    {d.name}{" "}
+                    <span className="text-slate-500">({d.items.length})</span>
                   </Link>
                 </li>
               ))}
@@ -84,8 +94,9 @@ export default function WorkshopHome({ params }: { params: Promise<{ code: strin
           <div className="bg-slate-900 rounded-2xl border border-slate-800 p-4 text-sm text-slate-400">
             <p className="font-semibold text-slate-200 mb-1">How to compete</p>
             <p>
-              Ask questions in chat, add the resulting charts to a dashboard, arrange them, and
-              build the most insightful view. Judges will review dashboards from the admin gallery.
+              Ask questions in chat, add the resulting charts to a dashboard,
+              arrange them, and build the most insightful view. Judges will
+              review dashboards from the admin gallery.
             </p>
           </div>
         </aside>

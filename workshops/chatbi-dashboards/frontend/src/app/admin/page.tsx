@@ -18,9 +18,9 @@ export default function Admin() {
   const [workshop, setWorkshop] = useState<Workshop | null>(null);
   const [models, setModels] = useState<Model[]>([]);
   const [rels, setRels] = useState<Relationship[]>([]);
-  const [gallery, setGallery] = useState<{ id: string; name: string; dashboards: Dashboard[] }[]>(
-    [],
-  );
+  const [gallery, setGallery] = useState<
+    { id: string; name: string; dashboards: Dashboard[] }[]
+  >([]);
   const [msg, setMsg] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -52,7 +52,9 @@ export default function Admin() {
       const res = await setupSource(workshop.id, src);
       setModels(res.models);
       setRels(res.relationships);
-      setMsg(`Connected. ${res.models.length} models, ${res.relationships.length} relationships.`);
+      setMsg(
+        `Connected. ${res.models.length} models, ${res.relationships.length} relationships.`,
+      );
     } catch (e: unknown) {
       setMsg(e instanceof Error ? e.message : String(e));
     } finally {
@@ -79,7 +81,9 @@ export default function Admin() {
 
       {/* Step 1: create workshop */}
       <section className="bg-slate-900 rounded-2xl border border-slate-800 p-5 mb-4">
-        <h2 className="font-semibold mb-3 text-slate-100">1. Create workshop</h2>
+        <h2 className="font-semibold mb-3 text-slate-100">
+          1. Create workshop
+        </h2>
         <div className="flex gap-2">
           <input
             value={name}
@@ -163,7 +167,8 @@ export default function Admin() {
       {models.length > 0 && (
         <section className="bg-slate-900 rounded-2xl border border-slate-800 p-5 mb-4">
           <h2 className="font-semibold mb-3 text-slate-100">
-            3. Semantic layer ({models.length} models, {rels.length} relationships)
+            3. Semantic layer ({models.length} models, {rels.length}{" "}
+            relationships)
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -179,14 +184,18 @@ export default function Admin() {
                       ({m.columns.length} cols, pk: {m.primary_key || "—"})
                     </span>
                     {m.description && (
-                      <p className="text-xs text-slate-400 mt-0.5">{m.description}</p>
+                      <p className="text-xs text-slate-400 mt-0.5">
+                        {m.description}
+                      </p>
                     )}
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <p className="text-xs font-medium text-slate-400 mb-1">RELATIONSHIPS</p>
+              <p className="text-xs font-medium text-slate-400 mb-1">
+                RELATIONSHIPS
+              </p>
               <ul className="space-y-1">
                 {rels.map((r) => (
                   <li
@@ -195,7 +204,9 @@ export default function Admin() {
                   >
                     <span className="font-medium">{r.models.join(" → ")}</span>{" "}
                     <span className="text-slate-500">({r.join_type})</span>
-                    <p className="text-xs text-slate-400 mt-0.5">{r.condition}</p>
+                    <p className="text-xs text-slate-400 mt-0.5">
+                      {r.condition}
+                    </p>
                   </li>
                 ))}
               </ul>
@@ -208,7 +219,9 @@ export default function Admin() {
       {workshop && (
         <section className="bg-slate-900 rounded-2xl border border-slate-800 p-5 mb-4">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="font-semibold text-slate-100">4. Gallery (judging)</h2>
+            <h2 className="font-semibold text-slate-100">
+              4. Gallery (judging)
+            </h2>
             <button
               onClick={loadGallery}
               className="text-sm px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200"
@@ -219,14 +232,21 @@ export default function Admin() {
           {gallery.length === 0 ? (
             <p className="text-sm text-slate-500">
               No participants yet. Share the code{" "}
-              <span className="font-mono font-medium text-slate-300">{workshop.code}</span> and the
-              join link.
+              <span className="font-mono font-medium text-slate-300">
+                {workshop.code}
+              </span>{" "}
+              and the join link.
             </p>
           ) : (
             <div className="space-y-4">
               {gallery.map((p) => (
-                <div key={p.id} className="border border-slate-800 rounded-xl p-3">
-                  <p className="font-medium text-sm mb-2 text-slate-100">{p.name}</p>
+                <div
+                  key={p.id}
+                  className="border border-slate-800 rounded-xl p-3"
+                >
+                  <p className="font-medium text-sm mb-2 text-slate-100">
+                    {p.name}
+                  </p>
                   {p.dashboards.map((d) => (
                     <div key={d.id} className="mb-3">
                       <p className="text-xs text-slate-400 mb-1">
@@ -234,11 +254,16 @@ export default function Admin() {
                       </p>
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                         {d.items.map((it) => (
-                          <div key={it.id} className="border border-slate-800 rounded-lg p-2">
+                          <div
+                            key={it.id}
+                            className="border border-slate-800 rounded-lg p-2"
+                          >
                             <p className="text-xs font-medium mb-1 truncate text-slate-200">
                               {it.title}
                             </p>
-                            {it.chart_spec && <ChartAnswer spec={it.chart_spec} />}
+                            {it.chart_spec && (
+                              <ChartAnswer spec={it.chart_spec} />
+                            )}
                           </div>
                         ))}
                       </div>
