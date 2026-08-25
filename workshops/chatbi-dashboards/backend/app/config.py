@@ -19,7 +19,9 @@ class Settings(BaseSettings):
     openai_streaming: bool = True
 
     # Metadata DB (app state)
-    database_url: str = "postgresql+asyncpg://workshop:workshop@localhost:5432/app_metadata"
+    database_url: str = (
+        "postgresql+asyncpg://workshop:workshop@localhost:5432/app_metadata"
+    )
 
     # Wren home (profiles + projects). Per-app to avoid clobbering ~/.wren
     wren_home: Path = Path("./.wren")

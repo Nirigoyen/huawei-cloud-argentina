@@ -162,7 +162,9 @@ async def set_source_and_introspect(
     )
     build_project(p)
 
-    return IntrospectionResult(models=_read_models(p), relationships=_read_relationships(p))
+    return IntrospectionResult(
+        models=_read_models(p), relationships=_read_relationships(p)
+    )
 
 
 @router.get("/models", response_model=list[ModelOut])
@@ -198,14 +200,18 @@ async def update_model(
 
 
 @router.get("/relationships", response_model=list[RelationshipOut])
-async def list_relationships(workshop_id: UUID, session: AsyncSession = Depends(get_session)):
+async def list_relationships(
+    workshop_id: UUID, session: AsyncSession = Depends(get_session)
+):
     w = await _load_workshop(workshop_id, session)
     return _read_relationships(_project_path(w))
 
 
 @router.post("/relationships", response_model=list[RelationshipOut])
 async def add_relationship(
-    workshop_id: UUID, body: RelationshipCreate, session: AsyncSession = Depends(get_session)
+    workshop_id: UUID,
+    body: RelationshipCreate,
+    session: AsyncSession = Depends(get_session),
 ):
     w = await _load_workshop(workshop_id, session)
     p = _project_path(w)

@@ -17,7 +17,9 @@ COOKIE_NAME = "wp_session"
 
 
 def _sign(payload: str) -> str:
-    sig = hmac.new(settings.session_secret.encode(), payload.encode(), hashlib.sha256).hexdigest()
+    sig = hmac.new(
+        settings.session_secret.encode(), payload.encode(), hashlib.sha256
+    ).hexdigest()
     return f"{payload}.{sig}"
 
 
@@ -46,7 +48,9 @@ def parse_session_token(token: str) -> UUID | None:
         return None
 
 
-async def get_current_participant_id(wp_session: str | None = Cookie(default=None)) -> UUID:
+async def get_current_participant_id(
+    wp_session: str | None = Cookie(default=None),
+) -> UUID:
     if not wp_session:
         raise HTTPException(status_code=401, detail="Not authenticated")
     pid = parse_session_token(wp_session)

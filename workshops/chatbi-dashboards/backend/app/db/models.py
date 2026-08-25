@@ -25,7 +25,9 @@ class Workshop(Base):
     name: Mapped[str] = mapped_column(String(255))
     code: Mapped[str] = mapped_column(String(32), unique=True, index=True)
     wren_project_path: Mapped[str] = mapped_column(Text)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
 
     pg_source: Mapped[PgSource | None] = relationship(
         back_populates="workshop", uselist=False, cascade="all, delete-orphan"
@@ -46,7 +48,9 @@ class PgSource(Base):
     port: Mapped[int] = mapped_column(default=5432)
     database: Mapped[str] = mapped_column(String(255))
     user: Mapped[str] = mapped_column(String(255))
-    password: Mapped[str] = mapped_column(Text)  # workshop scenario creds; rotate per event
+    password: Mapped[str] = mapped_column(
+        Text
+    )  # workshop scenario creds; rotate per event
     schema: Mapped[str] = mapped_column(String(255), default="public")
 
     workshop: Mapped[Workshop] = relationship(back_populates="pg_source")
@@ -54,14 +58,18 @@ class PgSource(Base):
 
 class Participant(Base):
     __tablename__ = "participants"
-    __table_args__ = (UniqueConstraint("workshop_id", "name", name="uq_workshop_participant_name"),)
+    __table_args__ = (
+        UniqueConstraint("workshop_id", "name", name="uq_workshop_participant_name"),
+    )
 
     id: Mapped[UUID] = mapped_column(primary_key=True, default=_uuid)
     workshop_id: Mapped[UUID] = mapped_column(
         ForeignKey("workshops.id", ondelete="CASCADE"), index=True
     )
     name: Mapped[str] = mapped_column(String(255))
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
 
     workshop: Mapped[Workshop] = relationship(back_populates="participants")
     threads: Mapped[list[Thread]] = relationship(
@@ -80,11 +88,15 @@ class Thread(Base):
         ForeignKey("participants.id", ondelete="CASCADE"), index=True
     )
     title: Mapped[str] = mapped_column(String(255), default="New chat")
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
 
     participant: Mapped[Participant] = relationship(back_populates="threads")
     messages: Mapped[list[Message]] = relationship(
-        back_populates="thread", cascade="all, delete-orphan", order_by="Message.created_at"
+        back_populates="thread",
+        cascade="all, delete-orphan",
+        order_by="Message.created_at",
     )
 
 
@@ -99,7 +111,9 @@ class Message(Base):
     content: Mapped[str | None] = mapped_column(Text)
     sql: Mapped[str | None] = mapped_column(Text)
     chart_spec: Mapped[dict | None] = mapped_column(JSONB)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
 
     thread: Mapped[Thread] = relationship(back_populates="messages")
 
@@ -112,7 +126,9 @@ class Dashboard(Base):
         ForeignKey("participants.id", ondelete="CASCADE"), index=True
     )
     name: Mapped[str] = mapped_column(String(255), default="Untitled dashboard")
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
 
     participant: Mapped[Participant] = relationship(back_populates="dashboards")
     items: Mapped[list[DashboardItem]] = relationship(
@@ -131,6 +147,8 @@ class DashboardItem(Base):
     sql: Mapped[str | None] = mapped_column(Text)
     chart_spec: Mapped[dict | None] = mapped_column(JSONB)
     layout: Mapped[dict] = mapped_column(JSONB)  # {x, y, w, h}
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now()
+    )
 
     dashboard: Mapped[Dashboard] = relationship(back_populates="items")

@@ -39,7 +39,12 @@ export default function DashboardBuilder({
     setSaving(true);
     await Promise.all(
       layout.map((l) =>
-        updateItemLayout(dash.id, l.i, { x: l.x, y: l.y, w: l.w, h: l.h }).catch(() => {}),
+        updateItemLayout(dash.id, l.i, {
+          x: l.x,
+          y: l.y,
+          w: l.w,
+          h: l.h,
+        }).catch(() => {}),
       ),
     );
     setSaving(false);
@@ -86,7 +91,11 @@ export default function DashboardBuilder({
         </p>
       ) : (
         <div className="bg-slate-900 rounded-2xl p-4 border border-slate-800">
-          <DashboardGrid items={dash.items} onSaveLayout={saveLayout} onDeleteItem={removeItem} />
+          <DashboardGrid
+            items={dash.items}
+            onSaveLayout={saveLayout}
+            onDeleteItem={removeItem}
+          />
         </div>
       )}
     </main>

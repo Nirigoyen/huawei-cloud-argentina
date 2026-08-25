@@ -60,7 +60,8 @@ async def fetch_schema_info(
             r["table_name"]
             for r in await conn.fetch(
                 """SELECT table_name FROM information_schema.tables
-                   WHERE table_schema = $1 AND table_type = 'BASE TABLE' ORDER BY table_name""",
+                   WHERE table_schema = $1 AND table_type = 'BASE TABLE'
+                   ORDER BY table_name""",
                 schema,
             )
         ]
@@ -88,14 +89,17 @@ async def fetch_schema_info(
             """SELECT kcu.table_name, kcu.column_name
                FROM information_schema.table_constraints tc
                JOIN information_schema.key_column_usage kcu
-                 ON tc.constraint_name = kcu.constraint_name AND tc.table_schema = kcu.table_schema
+                 ON tc.constraint_name = kcu.constraint_name
+                 AND tc.table_schema = kcu.table_schema
                WHERE tc.constraint_type = 'PRIMARY KEY' AND tc.table_schema = $1""",
             schema,
         )
         pk_cols: dict[str, list[str]] = {}
         for r in pk_rows:
             pk_cols.setdefault(r["table_name"], []).append(r["column_name"])
-        primary_keys = {t: (cols[0] if len(cols) == 1 else None) for t, cols in pk_cols.items()}
+        primary_keys = {
+            t: (cols[0] if len(cols) == 1 else None) for t, cols in pk_cols.items()
+        }
 
         # Foreign keys
         fk_rows = await conn.fetch(
@@ -103,9 +107,11 @@ async def fetch_schema_info(
                       ccu.table_name AS to_table, ccu.column_name AS to_column
                FROM information_schema.table_constraints tc
                JOIN information_schema.key_column_usage kcu
-                 ON tc.constraint_name = kcu.constraint_name AND tc.table_schema = kcu.table_schema
+                 ON tc.constraint_name = kcu.constraint_name
+                 AND tc.table_schema = kcu.table_schema
                JOIN information_schema.constraint_column_usage ccu
-                 ON tc.constraint_name = ccu.constraint_name AND tc.table_schema = ccu.table_schema
+                 ON tc.constraint_name = ccu.constraint_name
+                 AND tc.table_schema = ccu.table_schema
                WHERE tc.constraint_type = 'FOREIGN KEY' AND tc.table_schema = $1""",
             schema,
         )
@@ -130,7 +136,8 @@ def write_project(
     project_name: str,
     info: SchemaInfo,
 ) -> Path:
-    """Write wren_project.yml + models/ + relationships.yml for the given schema info."""
+    """Write wren_project.yml + models/ + relationships.yml for the given
+    schema info."""
     project_path = Path(project_path)
     project_path.mkdir(parents=True, exist_ok=True)
     (project_path / "models").mkdir(exist_ok=True)
@@ -177,7 +184,9 @@ def write_project(
                 "name": rel_name,
                 "models": [fk.from_table, fk.to_table],
                 "join_type": "MANY_TO_ONE",
-                "condition": f"{fk.from_table}.{fk.from_column} = {fk.to_table}.{fk.to_column}",
+                "condition": (
+                    f"{fk.from_table}.{fk.from_column} = {fk.to_table}.{fk.to_column}"
+                ),
             }
         )
     with (project_path / "relationships.yml").open("w") as f:

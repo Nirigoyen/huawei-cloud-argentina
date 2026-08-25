@@ -64,7 +64,10 @@ export function ChatPanel() {
   }, [active]);
 
   useEffect(() => {
-    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+    scrollRef.current?.scrollTo({
+      top: scrollRef.current.scrollHeight,
+      behavior: "smooth",
+    });
   }, [messages, streaming]);
 
   async function newThread() {
@@ -89,12 +92,15 @@ export function ChatPanel() {
     await streamChat(thread.id, content, (ev) => {
       setStreaming((s) => {
         if (!s) return s;
-        if (ev.type === "thinking") return { ...s, thinking: (s.thinking || "") + ev.content };
-        if (ev.type === "token") return { ...s, content: s.content + ev.content };
+        if (ev.type === "thinking")
+          return { ...s, thinking: (s.thinking || "") + ev.content };
+        if (ev.type === "token")
+          return { ...s, content: s.content + ev.content };
         if (ev.type === "sql") return { ...s, sql: ev.content };
         if (ev.type === "data") return { ...s, data: ev.content };
         if (ev.type === "chart") return { ...s, chart_spec: ev.content };
-        if (ev.type === "error") return { ...s, content: s.content + `\n\n[error: ${ev.content}]` };
+        if (ev.type === "error")
+          return { ...s, content: s.content + `\n\n[error: ${ev.content}]` };
         return s;
       });
     });
@@ -160,7 +166,9 @@ export function ChatPanel() {
             </>
           )}
           {m.content && isUser && (
-            <p className="whitespace-pre-wrap text-sm leading-relaxed">{m.content}</p>
+            <p className="whitespace-pre-wrap text-sm leading-relaxed">
+              {m.content}
+            </p>
           )}
           {m.sql && <SQLView sql={m.sql} />}
           {m.chart_spec && (
@@ -231,7 +239,9 @@ export function ChatPanel() {
             {busy ? "…" : "Send"}
           </button>
         </div>
-        {addError && <p className="text-xs text-red-400 px-3 pb-2">{addError}</p>}
+        {addError && (
+          <p className="text-xs text-red-400 px-3 pb-2">{addError}</p>
+        )}
       </div>
     </div>
   );
