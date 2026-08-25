@@ -19,4 +19,5 @@
 - [ ] If adding a workshop/demo/benchmark, it is self-contained with its own README and `.env.example`
 - [ ] No secrets or `.env` files are committed
 - [ ] Commits follow [Conventional Commits](https://www.conventionalcommits.org/)
+- [ ] No AI co-author trailers in commits (no `Co-Authored-By: Claude` — hooks activos: `git config core.hooksPath .githooks`)
 - [ ] Linting passes (`ruff check` for Python, `eslint` + `prettier --check` for TS)
