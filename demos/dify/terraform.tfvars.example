@@ -1,0 +1,18 @@
+# Credenciales de Huawei Cloud
+region     = "la-south-2"
+access_key = "your-access-key-here"
+secret_key = "your-secret-key-here"
+
+# Clave publica SSH (contenido de ~/.ssh/id_rsa.pub, una sola linea)
+ssh_public_key = "ssh-rsa AAAAB3Nza... your-email@example.com"
+
+# Password de la RDS (8-32 chars, incluir mayusculas, minusculas, numeros y especiales ~!@#%^*-_=+?)
+rds_password = "your-rds-password-here"
+
+# Opcionales (descomentar para override)
+# availability_zone = "la-south-2a"
+# dify_version      = "1.17.0"
+# dify_flavor       = "s6.large.4"
+# ollama_flavor     = "s6.large.4"
+# rds_flavor        = "rds.pg.n1.large.2"
+# eip_bandwidth     = 5

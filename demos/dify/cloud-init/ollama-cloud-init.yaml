@@ -1,0 +1,14 @@
+#cloud-config
+package_update: true
+packages:
+  - curl
+
+runcmd:
+  # Install Docker
+  - curl -fsSL https://get.docker.com | sh
+  - systemctl enable --now docker
+  # Run Ollama (CPU-only, suitable for bge-m3 embeddings)
+  - docker run -d --name ollama --restart unless-stopped -p 11434:11434 -v ollama-data:/root/.ollama ollama/ollama:latest
+  # Pull the bge-m3 embedding model
+  - sleep 20
+  - docker exec ollama ollama pull bge-m3
