@@ -18,7 +18,7 @@
 
 Este es el repositorio oficial del equipo de **Huawei Cloud Argentina**. Su propósito es centralizar y compartir los recursos técnicos que producimos: talleres hands-on, demos de productos y pruebas de concepto (PoC), benchmarks de rendimiento y ejemplos de infraestructura como código (Terraform y Ansible).
 
-Una característica distintiva de este repositorio es que **todo el desarrollo se realiza con agentes de IA** (Claude Code y similares). El repositorio incluye contexto para estos agentes —principalmente el archivo `CLAUDE.md` en la raíz y en cada subproyecto— de modo que cualquier colaborador pueda continuar el trabajo de forma consistente con la asistencia de un agente de IA.
+Una característica distintiva de este repositorio es que **todo el desarrollo se realiza con agentes de IA**. El repositorio incluye contexto para estos agentes —principalmente el archivo `CLAUDE.md` en la raíz y en cada subproyecto— de modo que cualquier colaborador pueda continuar el trabajo de forma consistente con la asistencia de un agente de IA.
 
 ### Estructura del repositorio
 
@@ -71,7 +71,7 @@ make up          # equivale a: docker compose up -d --build
 ### Cómo contribuir
 
 1. **Lee la guía de contribución.** Antes de enviar un PR, revisa [`CONTRIBUTING.md`](CONTRIBUTING.md) y [`docs/conventions.md`](docs/conventions.md).
-2. **Desarrollo con agentes de IA.** Todo el desarrollo se realiza con agentes de IA (Claude Code, etc.). Lee [`CLAUDE.md`](CLAUDE.md) para entender el contexto del repositorio y cómo trabajar con el agente.
+2. **Desarrollo con agentes de IA.** Todo el desarrollo se realiza con agentes de IA. Lee [`CLAUDE.md`](CLAUDE.md) para entender el contexto del repositorio y cómo trabajar con el agente.
 3. **Cada componente es autocontenido.** Cada taller, demo o benchmark debe ser autónomo: su propio `README.md`, su propio `docker-compose.yml` (o equivalente) y su propio `.env.example`.
 4. **Sin secretos en el repositorio.** Nunca commits claves, credenciales ni tokens. Usa únicamente plantillas `.env.example` con valores de ejemplo.
 5. **Conventional Commits.** Los mensajes de commit siguen la especificación [Conventional Commits](https://www.conventionalcommits.org/), por ejemplo: `feat(workshops): añade nuevo taller de RDS`.
@@ -94,7 +94,7 @@ Para consultas, abre un issue en este repositorio o contacta al equipo a través
 
 This is the official repository of the **Huawei Cloud Argentina** team. Its purpose is to centralize and share the technical resources we produce: hands-on workshops, product demos and proofs of concept (PoCs), performance benchmarks, and infrastructure-as-code examples (Terraform and Ansible).
 
-A distinctive feature of this repository is that **all development is done with AI agents** (Claude Code and similar tools). The repository includes context for these agents — primarily the `CLAUDE.md` file at the root and within each subproject — so any contributor can continue work consistently with the assistance of an AI agent.
+A distinctive feature of this repository is that **all development is done with AI agents**. The repository includes context for these agents — primarily the `CLAUDE.md` file at the root and within each subproject — so any contributor can continue work consistently with the assistance of an AI agent.
 
 ### Repository structure
 
@@ -147,7 +147,7 @@ make up          # equivalent to: docker compose up -d --build
 ### How to contribute
 
 1. **Read the contribution guide.** Before submitting a PR, review [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`docs/conventions.md`](docs/conventions.md).
-2. **AI agent development.** All development is done with AI agents (Claude Code, etc.). Read [`CLAUDE.md`](CLAUDE.md) to understand the repository context and how to work with the agent.
+2. **AI agent development.** All development is done with AI agents. Read [`CLAUDE.md`](CLAUDE.md) to understand the repository context and how to work with the agent.
 3. **Each component is self-contained.** Every workshop, demo, or benchmark must be standalone: its own `README.md`, its own `docker-compose.yml` (or equivalent), and its own `.env.example`.
 4. **No secrets in the repository.** Never commit keys, credentials, or tokens. Use only `.env.example` templates with placeholder values.
 5. **Conventional Commits.** Commit messages follow the [Conventional Commits](https://www.conventionalcommits.org/) specification, e.g.: `feat(workshops): add new RDS workshop`.
@@ -170,7 +170,7 @@ For inquiries, open an issue in this repository or reach out to the team through
 
 这是 **华为云阿根廷团队** 的官方仓库。其目的是集中并分享我们产出的技术资源：实操工作坊、产品演示与概念验证（PoC）、性能基准测试，以及基础设施即代码示例（Terraform 和 Ansible）。
 
-本仓库的一个显著特点是 **所有开发工作均借助 AI 智能体完成**（Claude Code 等工具）。仓库中包含供这些智能体使用的上下文信息 —— 主要是根目录及各子项目中的 `CLAUDE.md` 文件 —— 以便任何贡献者都能在 AI 智能体的辅助下一致地继续开展工作。
+本仓库的一个显著特点是 **所有开发工作均借助 AI 智能体完成**。仓库中包含供这些智能体使用的上下文信息 —— 主要是根目录及各子项目中的 `CLAUDE.md` 文件 —— 以便任何贡献者都能在 AI 智能体的辅助下一致地继续开展工作。
 
 ### 仓库结构
 
@@ -223,7 +223,7 @@ make up          # 等同于：docker compose up -d --build
 ### 如何贡献
 
 1. **阅读贡献指南。** 提交 PR 之前，请查阅 [`CONTRIBUTING.md`](CONTRIBUTING.md) 和 [`docs/conventions.md`](docs/conventions.md)。
-2. **AI 智能体开发。** 所有开发工作均通过 AI 智能体（Claude Code 等）完成。请阅读 [`CLAUDE.md`](CLAUDE.md) 以了解仓库上下文及如何与智能体协作。
+2. **AI 智能体开发。** 所有开发工作均通过 AI 智能体完成。请阅读 [`CLAUDE.md`](CLAUDE.md) 以了解仓库上下文及如何与智能体协作。
 3. **各组件独立自洽。** 每个工作坊、演示或基准测试都必须自成体系：拥有各自的 `README.md`、各自的 `docker-compose.yml`（或等价文件）以及各自的 `.env.example`。
 4. **仓库中不存放密钥。** 切勿提交密钥、凭据或令牌。仅使用 `.env.example` 模板填写占位值。
 5. **约定式提交。** 提交信息遵循 [Conventional Commits](https://www.conventionalcommits.org/) 规范，例如：`feat(workshops): 新增 RDS 工作坊`。

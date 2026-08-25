@@ -242,8 +242,8 @@ workshops/chatbi-dashboards/
 
 ## Deploy con agente
 
-Para instrucciones de deploy (producción, Huawei Cloud, etc.) usando el agente
-de Claude Code, ver [`../../docs/deploy-guide.md`](../../docs/deploy-guide.md).
+Para instrucciones de deploy (producción, Huawei Cloud, etc.) usando el agente,
+ver [`../../docs/deploy-guide.md`](../../docs/deploy-guide.md).
 
 ---
 
