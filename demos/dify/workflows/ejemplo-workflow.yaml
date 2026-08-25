@@ -1,0 +1,15 @@
+version: "0.6.0"
+kind: app
+app:
+  name: "Ejemplo Workflow"
+  description: "Workflow de ejemplo para Dify - skeleton vacio"
+  mode: workflow
+  icon: "🤖"
+  icon_background: "#FFEAD5"
+workflow:
+  graph:
+    nodes: []
+    edges: []
+  features:
+    file_upload:
+      enabled: false
