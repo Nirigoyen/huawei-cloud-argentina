@@ -1,0 +1,21 @@
+# Credenciales de Huawei Cloud
+region     = "la-south-2"
+access_key = "your-access-key-here"
+secret_key = "your-secret-key-here"
+
+# Password de admin de las ECS (user: root). 8-32 chars, mayusculas, minusculas, numeros y especiales ~!@#%^*-_=+?
+ecs_password = "your-password-here"
+
+# Opcionales (descomentar para override)
+# availability_zone = "la-south-2a"
+# image_name_regex  = "^Ubuntu 24.04"
+# image_id_override = ""
+# host_flavor       = "t6.large.1"
+# attacker_flavor   = "t6.large.1"
+# eip_bandwidth     = 5
+
+# Capas de defensa opcionales (paid)
+# enable_cfw = true
+# enable_waf = true
+# domain_name = "www.example.com"
+# public_zone  = "example.com"
