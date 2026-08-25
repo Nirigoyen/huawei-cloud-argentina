@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# commit-msg hook — strip AI co-author trailers so no AI tool appears as a
+# repo contributor. Policy: CONTRIBUTING.md "Sin menciones a herramientas de IA".
+# Safety net for CLAUDE.md's no-branding rule. Never blocks a commit.
+msg_file="$1"
+tmp="$msg_file.clean"
+if grep -viE '^Co-Authored-By: .*(Claude|noreply@anthropic\.com)' "$msg_file" > "$tmp"; then
+  mv "$tmp" "$msg_file"
+else
+  rm -f "$tmp"
+fi
+exit 0

@@ -2,6 +2,16 @@
 
 ¡Gracias por tu interés en contribuir! Este repo es el repositorio oficial de Huawei Cloud Argentina y contiene workshops, demos, benchmarks, e infraestructura.
 
+## Setup inicial (obligatorio)
+
+Después de clonar el repo, activar los hooks de git:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+Esto activa el hook `commit-msg` que elimina automáticamente cualquier trailer `Co-Authored-By` de IA (ej. `Co-Authored-By: Claude <noreply@anthropic.com>`) de los mensajes de commit, para que ninguna herramienta de IA figure como colaborador del repositorio (ver regla 4). Es una red de seguridad: igualmente no incluyas estos trailers a mano.
+
 ## Reglas generales
 
 1. **Todo el desarrollo se hace con agentes de IA.** Leé `CLAUDE.md` para el contexto general antes de empezar.
