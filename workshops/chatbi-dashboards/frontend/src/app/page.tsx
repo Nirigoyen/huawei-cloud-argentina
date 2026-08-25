@@ -30,10 +30,14 @@ export default function Landing() {
     <main className="min-h-screen flex items-center justify-center p-6">
       <div className="w-full max-w-md bg-slate-900 rounded-2xl shadow-lg border border-slate-800 p-8">
         <h1 className="text-2xl font-bold mb-1 text-white">ChatBI Workshop</h1>
-        <p className="text-slate-400 mb-6 text-sm">Enter your workshop code and name to join.</p>
+        <p className="text-slate-400 mb-6 text-sm">
+          Enter your workshop code and name to join.
+        </p>
         <form onSubmit={submit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1 text-slate-300">Workshop code</label>
+            <label className="block text-sm font-medium mb-1 text-slate-300">
+              Workshop code
+            </label>
             <input
               value={code}
               onChange={(e) => setCode(e.target.value)}
@@ -43,7 +47,9 @@ export default function Landing() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1 text-slate-300">Your name</label>
+            <label className="block text-sm font-medium mb-1 text-slate-300">
+              Your name
+            </label>
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -62,7 +68,10 @@ export default function Landing() {
         </form>
         <p className="mt-6 text-sm text-slate-500">
           Organizer?{" "}
-          <a href="/admin" className="underline text-slate-300 hover:text-white">
+          <a
+            href="/admin"
+            className="underline text-slate-300 hover:text-white"
+          >
             Open admin
           </a>
         </p>

@@ -69,7 +69,9 @@ async def create_thread(
     return ThreadOut(id=t.id, title=t.title)
 
 
-async def _load_owned_thread(tid: UUID, participant: Participant, session: AsyncSession) -> Thread:
+async def _load_owned_thread(
+    tid: UUID, participant: Participant, session: AsyncSession
+) -> Thread:
     t = await session.scalar(
         select(Thread)
         .where(Thread.id == tid, Thread.participant_id == participant.id)
@@ -88,7 +90,9 @@ async def list_messages(
 ):
     t = await _load_owned_thread(tid, participant, session)
     return [
-        MessageOut(id=m.id, role=m.role, content=m.content, sql=m.sql, chart_spec=m.chart_spec)
+        MessageOut(
+            id=m.id, role=m.role, content=m.content, sql=m.sql, chart_spec=m.chart_spec
+        )
         for m in t.messages
     ]
 

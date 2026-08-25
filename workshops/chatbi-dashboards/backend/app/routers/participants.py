@@ -28,13 +28,17 @@ class JoinOut(BaseModel):
 
 
 @router.post("/join", response_model=JoinOut)
-async def join(body: JoinBody, response: Response, session: AsyncSession = Depends(get_session)):
+async def join(
+    body: JoinBody, response: Response, session: AsyncSession = Depends(get_session)
+):
     w = await session.scalar(select(Workshop).where(Workshop.code == body.code))
     if not w:
         raise HTTPException(404, "Workshop code not found")
     # Create or retrieve the participant (unique per workshop+name).
     p = await session.scalar(
-        select(Participant).where(Participant.workshop_id == w.id, Participant.name == body.name)
+        select(Participant).where(
+            Participant.workshop_id == w.id, Participant.name == body.name
+        )
     )
     if not p:
         p = Participant(workshop_id=w.id, name=body.name)

@@ -48,7 +48,10 @@ async def main() -> None:
         ):
             out = data.get("output")
             out_repr = repr(out)[:300] if out is not None else "None"
-            print(f"{kind:25s} name={name:20s} data_keys={list(data.keys())} output={out_repr}")
+            print(
+                f"{kind:25s} name={name:20s} "
+                f"data_keys={list(data.keys())} output={out_repr}"
+            )
 
 
 asyncio.run(main())

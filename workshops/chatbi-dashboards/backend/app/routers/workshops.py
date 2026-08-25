@@ -52,7 +52,9 @@ class GalleryOut(BaseModel):
 
 
 @router.post("", response_model=WorkshopOut)
-async def create_workshop(body: WorkshopCreate, session: AsyncSession = Depends(get_session)):
+async def create_workshop(
+    body: WorkshopCreate, session: AsyncSession = Depends(get_session)
+):
     if await session.scalar(select(Workshop).where(Workshop.code == body.code)):
         raise HTTPException(409, "Workshop code already exists")
     w = Workshop(name=body.name, code=body.code, wren_project_path="placeholder")
@@ -76,7 +78,9 @@ async def _load_workshop(code: str, session: AsyncSession) -> Workshop:
 @router.get("/{code}", response_model=WorkshopOut)
 async def get_workshop(code: str, session: AsyncSession = Depends(get_session)):
     w = await _load_workshop(code, session)
-    has_source = bool(await session.scalar(select(PgSource.id).where(PgSource.workshop_id == w.id)))
+    has_source = bool(
+        await session.scalar(select(PgSource.id).where(PgSource.workshop_id == w.id))
+    )
     return WorkshopOut(id=w.id, name=w.name, code=w.code, has_source=has_source)
 
 
@@ -84,7 +88,9 @@ async def get_workshop(code: str, session: AsyncSession = Depends(get_session)):
 async def list_participants(code: str, session: AsyncSession = Depends(get_session)):
     w = await _load_workshop(code, session)
     rows = await session.scalars(
-        select(Participant).where(Participant.workshop_id == w.id).order_by(Participant.created_at)
+        select(Participant)
+        .where(Participant.workshop_id == w.id)
+        .order_by(Participant.created_at)
     )
     return [ParticipantOut(id=p.id, name=p.name) for p in rows]
 
@@ -92,7 +98,9 @@ async def list_participants(code: str, session: AsyncSession = Depends(get_sessi
 @router.get("/{code}/gallery", response_model=GalleryOut)
 async def gallery(code: str, session: AsyncSession = Depends(get_session)):
     w = await _load_workshop(code, session)
-    has_source = bool(await session.scalar(select(PgSource.id).where(PgSource.workshop_id == w.id)))
+    has_source = bool(
+        await session.scalar(select(PgSource.id).where(PgSource.workshop_id == w.id))
+    )
     parts = await session.scalars(
         select(Participant)
         .where(Participant.workshop_id == w.id)

@@ -117,20 +117,32 @@ export const setupSource = (workshopId: string, src: SourceConfig) =>
   );
 
 export const listModels = (workshopId: string) =>
-  j<Model[]>(fetch(`${API}/workshops/${workshopId}/setup/models`, { credentials: "include" }));
+  j<Model[]>(
+    fetch(`${API}/workshops/${workshopId}/setup/models`, {
+      credentials: "include",
+    }),
+  );
 export const listRelationships = (workshopId: string) =>
   j<Relationship[]>(
-    fetch(`${API}/workshops/${workshopId}/setup/relationships`, { credentials: "include" }),
+    fetch(`${API}/workshops/${workshopId}/setup/relationships`, {
+      credentials: "include",
+    }),
   );
 
 export const getGallery = (code: string) =>
-  j<{ workshop: Workshop; participants: { id: string; name: string; dashboards: Dashboard[] }[] }>(
-    fetch(`${API}/workshops/${code}/gallery`, { credentials: "include" }),
-  );
+  j<{
+    workshop: Workshop;
+    participants: { id: string; name: string; dashboards: Dashboard[] }[];
+  }>(fetch(`${API}/workshops/${code}/gallery`, { credentials: "include" }));
 
 // ---- Participants ----
 export const join = (code: string, name: string) =>
-  j<{ participant_id: string; workshop_id: string; workshop_name: string; workshop_code: string }>(
+  j<{
+    participant_id: string;
+    workshop_id: string;
+    workshop_name: string;
+    workshop_code: string;
+  }>(
     fetch(`${API}/participants/join`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -152,7 +164,9 @@ export const createThread = (title = "New chat") =>
     }),
   );
 export const listMessages = (tid: string) =>
-  j<Message[]>(fetch(`${API}/chat/threads/${tid}/messages`, { credentials: "include" }));
+  j<Message[]>(
+    fetch(`${API}/chat/threads/${tid}/messages`, { credentials: "include" }),
+  );
 
 export async function streamChat(
   threadId: string,
@@ -202,7 +216,10 @@ export const createDashboard = (name = "Untitled dashboard") =>
 export const getDashboard = (id: string) =>
   j<Dashboard>(fetch(`${API}/me/dashboards/${id}`, { credentials: "include" }));
 export const deleteDashboard = (id: string) =>
-  fetch(`${API}/me/dashboards/${id}`, { method: "DELETE", credentials: "include" });
+  fetch(`${API}/me/dashboards/${id}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
 export const addItem = (did: string, item: NewItem) =>
   j<Item>(
     fetch(`${API}/me/dashboards/${did}/items`, {
@@ -212,7 +229,11 @@ export const addItem = (did: string, item: NewItem) =>
       body: JSON.stringify(item),
     }),
   );
-export const updateItemLayout = (did: string, itemId: string, layout: ItemLayout) =>
+export const updateItemLayout = (
+  did: string,
+  itemId: string,
+  layout: ItemLayout,
+) =>
   j<Item>(
     fetch(`${API}/me/dashboards/${did}/items/${itemId}`, {
       method: "PUT",

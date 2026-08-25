@@ -6,10 +6,16 @@ export const metadata: Metadata = {
   description: "Dashboard competition workshop",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="es" className="dark">
-      <body className="bg-slate-950 text-slate-200 antialiased">{children}</body>
+      <body className="bg-slate-950 text-slate-200 antialiased">
+        {children}
+      </body>
     </html>
   );
 }
