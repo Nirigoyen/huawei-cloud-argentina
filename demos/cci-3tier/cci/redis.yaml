@@ -1,0 +1,44 @@
+apiVersion: cci/v2
+kind: Deployment
+metadata:
+  name: demo-redis
+  namespace: demo-cci
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-redis
+  template:
+    metadata:
+      labels:
+        app: demo-redis
+      annotations:
+        resource.cci.io/instance-type: general-computing
+    spec:
+      imagePullSecrets:
+        - name: imagepull-secret
+      containers:
+        - name: redis
+          image: swr.la-south-2.myhuaweicloud.com/demo-cci/redis:alpine
+          resources:
+            limits:
+              cpu: 250m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 512Mi
+          ports:
+            - containerPort: 6379
+---
+apiVersion: cci/v2
+kind: Service
+metadata:
+  name: redis-svc
+  namespace: demo-cci
+spec:
+  selector:
+    app: demo-redis
+  type: ClusterIP
+  ports:
+    - port: 6379
+      targetPort: 6379
