@@ -68,6 +68,16 @@ make up          # equivale a: docker compose up -d --build
 | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
 | `chatbi-dashboards`   | Taller donde los participantes comparten construyendo el mejor dashboard sobre una base PostgreSQL, usando la capa semántica de WrenAI y un agente conversacional potenciado por LLM. | FastAPI + Next.js 16 + PostgreSQL 16 + WrenAI     |
 
+### Demos disponibles
+
+| Demo                   | Descripción                                                                                          | Stack                                    |
+| ---------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `ai-privacy-gateway`   | Gateway que anonimiza PII antes de enviar a un LLM y reconstruye la respuesta original.              | FastAPI + Presidio + spaCy               |
+| `attack-defense`       | Seguridad defense-in-depth: DVWA con HSS/CES; attacker con sqlmap + brute-force. CFW y WAF opcionales. | DVWA + HSS + CES + CFW/WAF               |
+| `cci-3tier`            | App 3-tier en CCI (nginx + Flask + Redis) con UI de load balancing y estado compartido.              | CCI + nginx + Flask + Redis              |
+| `dify`                 | Dify self-hosted con Ollama y RDS PostgreSQL + pgvector como vector store.                           | Terraform + Dify + Ollama + RDS          |
+| `srt-distribution`     | Distribución de video SRT con pass-through H.265 y blacklisting individual por cliente.              | Terraform + MediaMTX + FastAPI           |
+
 ### Cómo contribuir
 
 1. **Lee la guía de contribución.** Antes de enviar un PR, revisa [`CONTRIBUTING.md`](CONTRIBUTING.md) y [`docs/conventions.md`](docs/conventions.md).
@@ -144,6 +154,16 @@ make up          # equivalent to: docker compose up -d --build
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
 | `chatbi-dashboards` | Workshop where participants compete to build the best dashboard over a PostgreSQL database, using the WrenAI semantic layer and an LLM-powered chat agent. | FastAPI + Next.js 16 + PostgreSQL 16 + WrenAI     |
 
+### Available demos
+
+| Demo                   | Description                                                                                          | Stack                                    |
+| ---------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `ai-privacy-gateway`   | Gateway that anonymizes PII before sending to an LLM and reconstructs the original response.         | FastAPI + Presidio + spaCy               |
+| `attack-defense`       | Defense-in-depth security: DVWA with HSS/CES; attacker with sqlmap + brute-force. Optional CFW/WAF.  | DVWA + HSS + CES + CFW/WAF               |
+| `cci-3tier`            | 3-tier app on CCI (nginx + Flask + Redis) with UI showing load balancing and shared state.           | CCI + nginx + Flask + Redis              |
+| `dify`                 | Self-hosted Dify with Ollama and RDS PostgreSQL + pgvector as vector store.                          | Terraform + Dify + Ollama + RDS          |
+| `srt-distribution`     | SRT video distribution with H.265 pass-through and per-client blacklisting.                         | Terraform + MediaMTX + FastAPI           |
+
 ### How to contribute
 
 1. **Read the contribution guide.** Before submitting a PR, review [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`docs/conventions.md`](docs/conventions.md).
@@ -219,6 +239,16 @@ make up          # 等同于：docker compose up -d --build
 | 名称                | 说明                                                                                                        | 技术栈                                           |
 | ------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
 | `chatbi-dashboards` | 参与者竞赛式工作坊：基于 PostgreSQL 数据库构建最佳仪表盘，使用 WrenAI 语义层与 LLM 驱动的对话式智能体。     | FastAPI + Next.js 16 + PostgreSQL 16 + WrenAI    |
+
+### 可用演示
+
+| 演示                   | 说明                                                                                                | 技术栈                                   |
+| ---------------------- | --------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `ai-privacy-gateway`   | 在发送给 LLM 前匿名化 PII 并重建原始响应的网关。                                                    | FastAPI + Presidio + spaCy               |
+| `attack-defense`       | 纵深防御安全演示：DVWA + HSS/CES；攻击者使用 sqlmap + 暴力破解。可选 CFW/WAF。                      | DVWA + HSS + CES + CFW/WAF               |
+| `cci-3tier`            | CCI 上的三层应用（nginx + Flask + Redis），UI 展示负载均衡与共享状态。                              | CCI + nginx + Flask + Redis              |
+| `dify`                 | 自托管 Dify，配合 Ollama 与 RDS PostgreSQL + pgvector 作为向量存储。                                | Terraform + Dify + Ollama + RDS          |
+| `srt-distribution`     | SRT 视频分发，H.265 透传，支持按客户端单独黑名单。                                                  | Terraform + MediaMTX + FastAPI           |
 
 ### 如何贡献
 
