@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Huawei CCI — Demo 3-Tier</title>
+<style>
+  :root {
+    --bg: #0f0f1e; --card: #1a1a2e; --border: #2a2a4a;
+    --text: #e0e0e0; --muted: #8888aa;
+    --huawei: #C7000B; --accent: #FF6B35; --ok: #00d26a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: .85rem; color: var(--muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .header { display: flex; align-items: center; gap: 12px; padding-bottom: 20px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+  .logo { width: 12px; height: 12px; background: var(--huawei); border-radius: 50%; box-shadow: 0 0 10px var(--huawei); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+  .arch { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .arch-node { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; text-align: center; }
+  .arch-node .name { font-weight: 600; font-size: .85rem; }
+  .arch-node .desc { font-size: .7rem; color: var(--muted); }
+  .arch-arrow { color: var(--accent); font-size: 1.1rem; }
+  .counter { font-size: 3.5rem; font-weight: 700; color: var(--huawei); text-align: center; padding: 10px 0; }
+  .btn { background: var(--huawei); color: #fff; border: none; border-radius: 6px; padding: 10px 24px; font-size: 1rem; cursor: pointer; width: 100%; margin-top: 12px; }
+  .btn:hover { opacity: .85; }
+  .btn:active { transform: scale(.98); }
+  .info-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--border); }
+  .info-row:last-child { border: none; }
+  .info-label { color: var(--muted); font-size: .85rem; }
+  .info-value { font-size: .85rem; font-family: monospace; }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; padding: 8px; color: var(--muted); font-size: .75rem; border-bottom: 1px solid var(--border); }
+  td { padding: 8px; font-size: .8rem; font-family: monospace; border-bottom: 1px solid var(--border); }
+  .pod-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+  .status { display: flex; align-items: center; gap: 6px; font-size: .8rem; color: var(--muted); margin-top: 14px; }
+  .pulse { width: 8px; height: 8px; background: var(--ok); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+  .ok { color: var(--ok); }
+  .err { color: var(--huawei); }
+  #log:empty::after { content: "Click \201CIncrementar\201D para ver requests"; color: var(--muted); font-style: italic; }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo"></div>
+    <h1>Huawei CCI — Demo 3-Tier</h1>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h2>Arquitectura</h2>
+    <div class="arch">
+      <div class="arch-node"><div class="name">👤 Usuario</div></div>
+      <div class="arch-arrow">▶</div>
+      <div class="arch-node"><div class="name">ELB</div><div class="desc">LoadBalancer</div></div>
+      <div class="arch-arrow">▶</div>
+      <div class="arch-node"><div class="name">Frontend</div><div class="desc">nginx</div></div>
+      <div class="arch-arrow">▶</div>
+      <div class="arch-node"><div class="name">Backend</div><div class="desc">Flask API</div></div>
+      <div class="arch-arrow">▶</div>
+      <div class="arch-node"><div class="name">Redis</div><div class="desc">contador</div></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Contador de Visitas</h2>
+      <div class="counter" id="counter">—</div>
+      <button class="btn" onclick="visit()">Incrementar</button>
+    </div>
+    <div class="card">
+      <h2>Info del Backend</h2>
+      <div class="info-row"><span class="info-label">Mensaje</span><span class="info-value" id="msg">…</span></div>
+      <div class="info-row"><span class="info-label">Pod</span><span class="info-value" id="pod">…</span></div>
+      <div class="info-row"><span class="info-label">IP</span><span class="info-value" id="ip">…</span></div>
+      <div class="info-row"><span class="info-label">Redis</span><span class="info-value" id="redis">…</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Log de Requests</h2>
+    <table>
+      <thead><tr><th>Timestamp</th><th>Pod</th><th>IP</th><th>Count</th></tr></thead>
+      <tbody id="log"></tbody>
+    </table>
+    <div class="status"><div class="pulse"></div> Auto-refresh cada 3s</div>
+  </div>
+
+<script>
+const POD_COLORS = ["#C7000B","#FF6B35","#00d26a","#4a9eff","#c084fc","#fbbf24"];
+const colorMap = {};
+let colorIdx = 0;
+function podColor(n) { if (!colorMap[n]) colorMap[n] = POD_COLORS[colorIdx++ % POD_COLORS.length]; return colorMap[n]; }
+
+async function api(path, method) {
+  const r = await fetch(path, { method: method || "GET" });
+  return r.json();
+}
+
+async function updateVisits() {
+  try { document.getElementById("counter").textContent = (await api("/api/visits")).count; } catch(e) {}
+}
+
+async function updateInfo() {
+  try {
+    const d = await api("/api/info");
+    document.getElementById("msg").textContent = d.message || "—";
+    document.getElementById("pod").textContent = d.pod;
+    document.getElementById("ip").textContent = d.ip;
+    const el = document.getElementById("redis");
+    el.textContent = d.redis_ok ? "✅ conectado" : "❌ error";
+    el.className = "info-value " + (d.redis_ok ? "ok" : "err");
+  } catch(e) {}
+}
+
+async function visit() {
+  try {
+    const d = await api("/api/visit", "POST");
+    document.getElementById("counter").textContent = d.count;
+    const ts = new Date(d.timestamp * 1000).toLocaleTimeString("es");
+    const c = podColor(d.pod);
+    const row = `<tr><td>${ts}</td><td><span class="pod-dot" style="background:${c}"></span>${d.pod}</td><td>${d.ip}</td><td>${d.count}</td></tr>`;
+    const log = document.getElementById("log");
+    log.insertAdjacentHTML("afterbegin", row);
+    while (log.children.length > 20) log.lastChild.remove();
+  } catch(e) {}
+}
+
+updateVisits();
+updateInfo();
+setInterval(() => { updateVisits(); updateInfo(); }, 3000);
+</script>
+</body>
+</html>
