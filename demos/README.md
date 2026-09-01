@@ -14,10 +14,12 @@ Demos de productos y PoCs de Huawei Cloud Argentina.
 | [ai-privacy-gateway] | Gateway que anonimiza PII antes de enviar a un LLM y reconstruye la respuesta |
 | [attack-defense]     | Demo de seguridad defense-in-depth: DVWA + HSS/CES, con CFW y WAF opcionales |
 | [cci-3tier]          | App 3-tier en CCI (nginx + Flask + Redis) con UI que muestra load balancing y estado compartido |
+| [srt-distribution]   | Distribución de video SRT con pass-through H.265 y control de acceso (blacklisting) individual por cliente — Terraform |
 
 [ai-privacy-gateway]: ai-privacy-gateway/
 [attack-defense]: security/attack-defense/
 [cci-3tier]: cci-3tier/
+[srt-distribution]: iac/terraform/srt-distribution/
 
 ## Cómo agregar un demo
 

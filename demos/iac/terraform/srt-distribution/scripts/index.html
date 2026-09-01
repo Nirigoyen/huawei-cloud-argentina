@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>__DASHBOARD_TITLE__</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0f14; --surface:#141b22; --surface-2:#1b242d; --border:#243140;
+  --text:#e6edf3; --muted:#8b98a5;
+  --red:#e5484d; --green:#3fb950; --amber:#d29922; --blue:#519aba; --purple:#a371f7;
+  --radius:8px; --shadow:0 1px 3px rgba(0,0,0,.4);
+  --font:'Inter',system-ui,-apple-system,Segoe,Roboto,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.5}
+body{min-height:100vh}
+button{font-family:var(--font);cursor:pointer}
+input{font-family:var(--font)}
+.mono,.tabular{font-variant-numeric:tabular-nums}
+
+/* Top bar */
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 24px;background:var(--surface);border-bottom:1px solid var(--border);box-shadow:var(--shadow)}
+.brand{display:flex;align-items:baseline;gap:14px}
+.wordmark{font-weight:800;font-size:20px;letter-spacing:2px;color:var(--text)}
+.subtitle{font-size:12px;color:var(--muted);letter-spacing:.3px}
+.topright{display:flex;align-items:center;gap:20px}
+.live-dot{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:12px;color:var(--red);letter-spacing:1px}
+.live-dot::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--red);animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.75)}}
+.relay{font-size:12px;color:var(--muted)}
+.clock{font-size:15px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums;min-width:74px;text-align:right}
+
+/* Layout */
+.wrap{max-width:1500px;margin:0 auto;padding:20px 24px 40px}
+.kpi-row{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.kpi{flex:1 1 180px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:16px 18px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.kpi::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--c,var(--muted))}
+.kpi .val{font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1;color:var(--text);transition:opacity .3s}
+.kpi .val.fade{opacity:.4}
+.kpi .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-top:6px}
+.kpi .val small{font-size:14px;font-weight:500;color:var(--muted);margin-left:4px}
+
+.main-grid{display:grid;grid-template-columns:2fr 1fr;gap:20px;align-items:start}
+@media(max-width:1100px){.main-grid{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+.panel-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}
+.panel-title{font-size:13px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:var(--text)}
+.badge{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:20px;padding:0 7px;
+  border-radius:10px;font-size:11px;font-weight:600;font-variant-numeric:tabular-nums}
+.badge-red{background:rgba(229,72,77,.15);color:var(--red)}
+.badge-green{background:rgba(63,185,80,.15);color:var(--green)}
+.badge-amber{background:rgba(210,153,34,.15);color:var(--amber)}
+.badge-blue{background:rgba(81,154,186,.15);color:var(--blue)}
+.badge-purple{background:rgba(163,113,247,.15);color:var(--purple)}
+.badge-muted{background:rgba(139,152,165,.15);color:var(--muted)}
+.live-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--red);letter-spacing:.5px}
+.live-badge::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 1.8s ease-in-out infinite}
+
+/* Table panel */
+.table-panel{overflow:hidden}
+.toolbar{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.search{flex:1 1 200px;min-width:160px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius);
+  padding:7px 12px;color:var(--text);font-size:13px;outline:none;transition:border-color .2s}
+.search:focus{border-color:var(--blue)}
+.search::placeholder{color:var(--muted)}
+.chips{display:flex;gap:6px}
+.chip{padding:5px 12px;border:1px solid var(--border);background:transparent;color:var(--muted);border-radius:14px;
+  font-size:12px;font-weight:500;transition:all .2s}
+.chip:hover{color:var(--text)}
+.chip.active{background:var(--surface-2);color:var(--text);border-color:var(--blue)}
+.count-pill{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.table-scroll{overflow:auto;max-height:calc(100vh - 360px);min-height:240px}
+table{width:100%;border-collapse:collapse}
+thead th{position:sticky;top:0;background:var(--surface);z-index:2}
+th,td{padding:11px 18px;text-align:left;border-bottom:1px solid var(--border)}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:600}
+td{font-size:13px;font-variant-numeric:tabular-nums}
+tbody tr{transition:background .15s}
+tbody tr:hover{background:var(--surface-2)}
+tbody tr:nth-child(even){background:rgba(27,36,45,.4)}
+tbody tr:nth-child(even):hover{background:var(--surface-2)}
+.op-cell{font-weight:600;color:var(--text)}
+.chan-chip{display:inline-block;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:600}
+.chan-canal1{background:rgba(81,154,186,.15);color:var(--blue)}
+.chan-canal2{background:rgba(163,113,247,.15);color:var(--purple)}
+.br-cell{min-width:130px}
+.br-bar-wrap{display:flex;align-items:center;gap:10px}
+.br-bar{flex:1;height:6px;background:var(--surface-2);border-radius:3px;overflow:hidden;max-width:90px}
+.br-bar > span{display:block;height:100%;background:var(--green);border-radius:3px;transition:width .4s ease}
+.br-num{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.br-null{color:var(--muted)}
+.loss-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;font-variant-numeric:tabular-nums}
+.loss-ok{background:rgba(63,185,80,.15);color:var(--green)}
+.loss-warn{background:rgba(210,153,34,.15);color:var(--amber)}
+.btn-block{background:transparent;border:1px solid rgba(229,72,77,.5);color:var(--red);padding:5px 12px;border-radius:var(--radius);
+  font-size:12px;font-weight:600;transition:all .2s}
+.btn-block:hover{background:rgba(229,72,77,.15);border-color:var(--red)}
+.btn-unblock{background:transparent;border:1px solid var(--border);color:var(--muted);padding:5px 12px;border-radius:var(--radius);
+  font-size:12px;font-weight:500;transition:all .2s}
+.btn-unblock:hover{color:var(--text);border-color:var(--muted)}
+.empty-row td{text-align:center;color:var(--muted);padding:40px 0;font-style:italic}
+
+/* Sidebar */
+.sidebar{display:flex;flex-direction:column;gap:20px}
+/* Preview */
+.preview-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:var(--radius);overflow:hidden;
+  border:1px solid var(--border)}
+.preview-frame img{display:block;width:100%;height:100%;object-fit:cover}
+.preview-err{position:absolute;inset:0;display:none;align-items:center;justify-content:center;color:var(--muted);
+  font-size:13px;background:rgba(0,0,0,.75);text-align:center;padding:20px}
+.preview-label{position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,.6);color:var(--text);font-size:11px;font-weight:600;
+  padding:3px 9px;border-radius:4px;letter-spacing:.4px;text-transform:uppercase;backdrop-filter:blur(4px)}
+.preview-tabs{display:flex;gap:4px}
+.ptab{padding:8px 14px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--muted);
+  font-size:13px;font-weight:600;transition:all .2s}
+.ptab:hover{color:var(--text)}
+.ptab.active{color:var(--text);border-bottom-color:var(--blue)}
+.preview-body{padding:14px 18px}
+
+/* Blacklist */
+.bl-body{padding:8px 0;max-height:280px;overflow:auto}
+.bl-item{display:flex;align-items:center;justify-content:space-between;padding:9px 18px;border-bottom:1px solid var(--border)}
+.bl-item:last-child{border-bottom:none}
+.bl-op{color:var(--red);font-weight:600;font-size:13px}
+.bl-empty{display:flex;align-items:center;gap:10px;padding:18px;color:var(--green);font-size:13px}
+.bl-empty svg{flex-shrink:0}
+
+/* Toast */
+.toast-wrap{position:fixed;bottom:24px;right:24px;z-index:100;display:flex;flex-direction:column;gap:10px}
+.toast{background:var(--surface-2);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:var(--radius);
+  padding:11px 16px;font-size:13px;color:var(--text);box-shadow:0 4px 12px rgba(0,0,0,.5);min-width:220px;
+  animation:toastIn .25s ease}
+.toast.err{border-left-color:var(--red)}
+@keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.check-icon{width:16px;height:16px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <span class="wordmark">__DASHBOARD_TITLE__</span>
+    <span class="subtitle">SRT Relay Dashboard</span>
+  </div>
+  <div class="topright">
+    <span class="live-dot">LIVE</span>
+    <span class="relay">Relay</span>
+    <span class="clock" id="clock">--:--:--</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="kpi-row" id="kpi-row">
+    <div class="kpi" style="--c:var(--green)"><div class="val" id="kpi-active">0</div><div class="lbl">Active Clients</div></div>
+    <div class="kpi" style="--c:var(--red)"><div class="val" id="kpi-bl">0</div><div class="lbl">Blacklisted</div></div>
+    <div class="kpi" style="--c:var(--blue)"><div class="val" id="kpi-bw">0<small>Mbps</small></div><div class="lbl">Aggregate Bitrate</div></div>
+    <div class="kpi" style="--c:var(--amber)"><div class="val" id="kpi-loss">0<small>%</small></div><div class="lbl">Max Loss</div></div>
+    <div class="kpi" style="--c:var(--blue)"><div class="val" id="kpi-ch">0</div><div class="lbl">Active Channels</div></div>
+  </div>
+
+  <div class="main-grid">
+
+    <div class="panel table-panel">
+      <div class="toolbar">
+        <input class="search" id="search" type="text" placeholder="Search client or IP...">
+        <div class="chips">
+          <button class="chip active" data-ch="all">All</button>
+          <button class="chip" data-ch="canal1">Channel 1</button>
+          <button class="chip" data-ch="canal2">Channel 2</button>
+        </div>
+        <span class="count-pill" id="count-pill">0 active</span>
+      </div>
+      <div class="table-scroll" id="table-scroll">
+        <table>
+          <thead><tr>
+            <th>Client</th><th>Channel</th><th>IP</th><th>Bitrate</th><th>Loss</th><th>Uptime</th><th style="text-align:right">Action</th>
+          </tr></thead>
+          <tbody id="clients"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <div class="panel">
+        <div class="panel-head">
+          <span class="panel-title">Live Preview</span>
+          <span class="live-badge">LIVE</span>
+        </div>
+        <div class="preview-body">
+          <div class="preview-tabs">
+            <button class="ptab active" id="ptab-canal1">Channel 1</button>
+            <button class="ptab" id="ptab-canal2">Channel 2</button>
+          </div>
+          <div class="preview-frame">
+            <img id="preview" src="/api/preview/canal1" alt="Live preview" onerror="previewError()">
+            <div class="preview-err" id="preview-err">Signal unavailable — retrying...</div>
+            <div class="preview-label" id="preview-label">Channel 1</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <span class="panel-title">Blacklist</span>
+          <span class="badge badge-red" id="bl-count">0</span>
+        </div>
+        <div class="bl-body" id="blacklist"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+let clients=[], blacklist=[];
+let curChannel='canal1', chanFilter='all', searchTerm='';
+
+/* clock */
+function tickClock(){
+  const d=new Date();
+  $('clock').textContent=[d.getHours(),d.getMinutes(),d.getSeconds()].map(n=>String(n).padStart(2,'0')).join(':');
+}
+tickClock(); setInterval(tickClock,1000);
+
+/* helpers */
+function fmtUptime(s){
+  if(s<60)return Math.round(s)+'s';
+  if(s<3600)return Math.floor(s/60)+'m '+Math.round(s%60)+'s';
+  return Math.floor(s/3600)+'h '+Math.floor((s%3600)/60)+'m';
+}
+function fmtMbps(k){ return k==null? '—' : (k/1000).toFixed(2)+' Mbps'; }
+function esc(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* toasts */
+function toast(msg,err){
+  const w=$('toast-wrap');
+  const t=document.createElement('div');
+  t.className='toast'+(err?' err':'');
+  t.textContent=msg;
+  w.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(()=>t.remove(),300);},2500);
+}
+
+/* KPIs */
+function renderKPI(){
+  const active=clients.length;
+  const bl=blacklist.length;
+  const bw=clients.reduce((a,c)=>a+(c.bitrate_kbps||0),0);
+  const maxLoss=clients.reduce((a,c)=>Math.max(a,c.loss_pct||0),0);
+  const chans=new Set(clients.map(c=>c.channel)).size;
+  setKPI('kpi-active',active);
+  setKPI('kpi-bl',bl);
+  setKPI('kpi-bw',(bw/1000).toFixed(1)+'<small>Mbps</small>');
+  setKPI('kpi-loss',maxLoss.toFixed(2)+'<small>%</small>');
+  setKPI('kpi-ch',chans);
+}
+function setKPI(id,html){
+  const el=$(id);
+  el.classList.add('fade');
+  setTimeout(()=>{el.innerHTML=html;el.classList.remove('fade');},120);
+}
+
+/* table */
+function renderTable(){
+  const tb=$('clients');
+  let rows=clients.slice().sort((a,b)=>(a.op_id||'').localeCompare(b.op_id||''));
+  if(chanFilter!=='all') rows=rows.filter(r=>r.channel===chanFilter);
+  if(searchTerm) rows=rows.filter(r=>(r.op_id&&r.op_id.includes(searchTerm))||(r.ip&&r.ip.includes(searchTerm)));
+  $('count-pill').textContent=rows.length+' active';
+  if(!rows.length){
+    tb.innerHTML='<tr class="empty-row"><td colspan="7">No clients connected</td></tr>';
+    return;
+  }
+  const seen=new Set();
+  let html='';
+  for(const c of rows){
+    seen.add(c.id);
+    const bw=c.bitrate_kbps;
+    const bwPct=bw==null?0:Math.min(100,(bw/3500)*100);
+    const loss=c.loss_pct||0;
+    const chanCls=c.channel==='canal1'?'chan-canal1':c.channel==='canal2'?'chan-canal2':'';
+    html+=`<tr data-id="${esc(c.id)}">
+      <td class="op-cell">${esc(c.op_id||'—')}</td>
+      <td><span class="chan-chip ${chanCls}">${esc(c.channel)}</span></td>
+      <td>${esc(c.ip)}</td>
+      <td class="br-cell"><div class="br-bar-wrap">
+        <div class="br-bar"><span style="width:${bwPct}%"></span></div>
+        <span class="br-num">${bw==null?'<span class="br-null">—</span>':fmtMbps(bw)}</span>
+      </div></td>
+      <td><span class="loss-badge ${loss>0?'loss-warn':'loss-ok'}">${loss.toFixed(2)}%</span></td>
+      <td>${fmtUptime(c.uptime_s)}</td>
+      <td style="text-align:right"><button class="btn-block" data-op="${esc(c.op_id)}">Block</button></td>
+    </tr>`;
+  }
+  tb.innerHTML=html;
+}
+
+/* blacklist */
+function renderBL(){
+  const div=$('blacklist');
+  $('bl-count').textContent=blacklist.length;
+  if(!blacklist.length){
+    div.innerHTML=`<div class="bl-empty">
+      <svg class="check-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M5 8.2l2 2 4-4.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      No blocks — all clients active</div>`;
+    return;
+  }
+  div.innerHTML=blacklist.map(op=>
+    `<div class="bl-item"><span class="bl-op">${esc(op)}</span><button class="btn-unblock" data-op="${esc(op)}">Unblock</button></div>`
+  ).join('');
+}
+
+/* actions */
+async function block(op){
+  if(!confirm(`Block client ${op}? Their stream will be cut immediately.`))return;
+  try{
+    const r=await fetch('/api/blacklist/'+encodeURIComponent(op),{method:'POST'});
+    if(!r.ok)throw 0;
+    toast(op+' blocked');
+    refreshClients(); refreshBL();
+  }catch(e){toast('Error blocking '+op,true);}
+}
+async function unblock(op){
+  try{
+    const r=await fetch('/api/blacklist/'+encodeURIComponent(op),{method:'DELETE'});
+    if(!r.ok)throw 0;
+    toast(op+' unblocked');
+    refreshBL();
+  }catch(e){toast('Error unblocking '+op,true);}
+}
+
+/* event delegation */
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button');
+  if(!b)return;
+  if(b.classList.contains('btn-block')){block(b.dataset.op);return;}
+  if(b.classList.contains('btn-unblock')){unblock(b.dataset.op);return;}
+  if(b.classList.contains('chip')){
+    document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+    b.classList.add('active'); chanFilter=b.dataset.ch; renderTable(); return;
+  }
+  if(b.id==='ptab-canal1'){switchChannel('canal1');return;}
+  if(b.id==='ptab-canal2'){switchChannel('canal2');return;}
+});
+$('search').addEventListener('input',e=>{searchTerm=e.target.value.trim();renderTable();});
+
+/* refresh */
+async function refreshClients(){
+  try{
+    const r=await fetch('/api/clients');
+    clients=await r.json();
+    renderKPI(); renderTable();
+  }catch(e){clients=[];}
+}
+async function refreshBL(){
+  try{
+    const r=await fetch('/api/blacklist');
+    blacklist=await r.json();
+    renderBL(); renderKPI();
+  }catch(e){}
+}
+
+/* preview */
+function switchChannel(ch){
+  curChannel=ch;
+  $('ptab-canal1').classList.toggle('active',ch==='canal1');
+  $('ptab-canal2').classList.toggle('active',ch==='canal2');
+  $('preview-label').textContent=ch==='canal1'?'Channel 1':'Channel 2';
+  $('preview-err').style.display='none';
+  $('preview').src='/api/preview/'+ch+'?t='+Date.now();
+}
+function previewError(){
+  $('preview-err').style.display='flex';
+  setTimeout(()=>{$('preview-err').style.display='none';$('preview').src='/api/preview/'+curChannel+'?t='+Date.now();},3000);
+}
+
+/* boot */
+refreshClients(); refreshBL();
+setInterval(refreshClients,2000);
+setInterval(refreshBL,3000);
+</script>
+</body>
+</html>

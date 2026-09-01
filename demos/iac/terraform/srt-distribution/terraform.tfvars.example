@@ -1,0 +1,35 @@
+## Huawei Cloud credentials (required — fill these in)
+# huaweicloud_access_key = "your-ak-here"
+# huaweicloud_secret_key = "your-sk-here"
+
+## Region (set to your own)
+huaweicloud_region = "la-south-2"
+
+## ECS (required — fill these in)
+# ecs_password = "YourStrongPass!123"
+
+## Flavor — exact IDs vary by region/availability
+ecs_flavor_id = "c6.xlarge.2"
+
+## OS image
+image_name = "Ubuntu 22.04 server"
+
+## SSH (required — fill this in)
+# ssh_public_key = "ssh-ed25519 AAAA... your@email"
+
+## Restrict SSH to your IP in production
+ssh_source_cidr = "0.0.0.0/0"
+
+## Project
+project_name = "srt-poc"
+vpc_cidr     = "10.0.0.0/24"
+
+## SRT
+consumer_count  = 100
+srt_latency_us  = 2000000
+
+## SWR
+swr_org = "srt-poc"
+
+## Dashboard
+dashboard_title = "SRT Distribution Control"
