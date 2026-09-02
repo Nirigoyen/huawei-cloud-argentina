@@ -16,8 +16,8 @@ import sys
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 
-MAAS_OPENAI = "https://api.modelarts-maas.com/openai/v1"
-MODEL = os.environ.get("CODEX_TEST_MODEL", "deepseek-v4-pro")
+MAAS_OPENAI = "https://api-ap-southeast-1.modelarts-maas.com/openai/v1"
+MODEL = os.environ.get("CODEX_TEST_MODEL", "glm-5.2")
 API_KEY = os.environ.get("HUAWEI_MAAS_API_KEY", "")
 
 

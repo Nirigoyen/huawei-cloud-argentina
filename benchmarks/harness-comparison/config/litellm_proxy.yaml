@@ -1,0 +1,36 @@
+# LiteLLM proxy config for Codex CLI ↔ Huawei Cloud MaaS
+# Codex CLI only supports the Responses API (/v1/responses),
+# but MaaS only has Chat Completions (/v1/chat/completions).
+# This proxy translates Responses API → Chat Completions.
+#
+# Usage:
+#   pip install litellm[proxy]
+#   export HUAWEI_MAAS_API_KEY="your-key"
+#   litellm --config config/litellm_proxy.yaml --port 4000
+#
+# Then point Codex at http://localhost:4000/v1:
+#   [model_providers.huawei-maas]
+#   base_url = "http://localhost:4000/v1"
+#   env_key = "HUAWEI_MAAS_API_KEY"
+
+model_list:
+  - model_name: glm-5.2
+    litellm_params:
+      model: openai/glm-5.2
+      api_base: https://api-ap-southeast-1.modelarts-maas.com/openai/v1
+      api_key: os.environ/HUAWEI_MAAS_API_KEY
+  - model_name: glm-5.1
+    litellm_params:
+      model: openai/glm-5.1
+      api_base: https://api-ap-southeast-1.modelarts-maas.com/openai/v1
+      api_key: os.environ/HUAWEI_MAAS_API_KEY
+  - model_name: deepseek-v4-pro
+    litellm_params:
+      model: openai/deepseek-v4-pro
+      api_base: https://api-ap-southeast-1.modelarts-maas.com/openai/v1
+      api_key: os.environ/HUAWEI_MAAS_API_KEY
+  - model_name: deepseek-v4-flash
+    litellm_params:
+      model: openai/deepseek-v4-flash
+      api_base: https://api-ap-southeast-1.modelarts-maas.com/openai/v1
+      api_key: os.environ/HUAWEI_MAAS_API_KEY

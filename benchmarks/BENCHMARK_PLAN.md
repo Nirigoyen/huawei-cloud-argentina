@@ -10,9 +10,9 @@ Comparar cuantitativamente distintos harnesses de agentes de coding, todos usand
 
 | # | Harness | Prioridad | Categoría | Config MaaS |
 |---|---------|-----------|-----------|-------------|
-| 1 | **Aider** | CRITICAL | CLI | `OPENAI_API_BASE=https://api.modelarts-maas.com/openai/v1` + `--model openai/glm-5.2` |
+| 1 | **Aider** | CRITICAL | CLI | `OPENAI_API_BASE=https://api-ap-southeast-1.modelarts-maas.com/openai/v1` + `--model openai/glm-5.2` |
 | 2 | **OpenHands** (ex-OpenDevin) | CRITICAL | Autónomo | litellm `base_url` → endpoint OpenAI-compatible de MaaS |
-| 3 | **Claude Code** | HIGH | CLI | `ANTHROPIC_BASE_URL=https://api.modelarts-maas.com/anthropic` + `ANTHROPIC_AUTH_TOKEN` |
+| 3 | **Claude Code** | HIGH | CLI | `ANTHROPIC_BASE_URL=https://api-ap-southeast-1.modelarts-maas.com/anthropic` + `ANTHROPIC_AUTH_TOKEN` |
 | 4 | **SWE-agent / mini-SWE-agent** | HIGH | Autónomo | litellm con `api_base` → MaaS, YAML model config |
 | 5 | **Crush** (ex-OpenCode, Charm) | HIGH | TUI | `provider add maas --type openai-compat --base-url <endpoint> --api-key <key>` |
 | 6 | **Goose** (Block, Linux Foundation) | HIGH | CLI/General | `goose configure` → custom OpenAI provider con MaaS base URL |
@@ -30,7 +30,7 @@ Codex CLI (openai/codex, ~120K stars, Apache-2.0) **solo soporta el Responses AP
 - **Si MaaS implementa el Responses API** → Codex funciona directo con un custom provider en `~/.codex/config.toml`.
 - **Si MaaS solo tiene Chat Completions** → Codex no puede conectarse directo. Se necesita un proxy (ej: LiteLLM) que traduzca Chat Completions → Responses API.
 
-**Acción**: verificar si `https://api.modelarts-maas.com/openai/v1/responses` responde 200 antes de incluir Codex en el benchmark. Si no, montar proxy LiteLLM como intermediario.
+**Acción**: verificar si `https://api-ap-southeast-1.modelarts-maas.com/openai/v1/responses` responde 200 antes de incluir Codex en el benchmark. Si no, montar proxy LiteLLM como intermediario.
 
 Config Codex para MaaS (vía custom provider):
 ```toml
@@ -40,7 +40,7 @@ model = "glm-5.2"
 
 [model_providers.huawei-maas]
 name = "Huawei Cloud MaaS"
-base_url = "https://api.modelarts-maas.com/openai/v1"
+base_url = "https://api-ap-southeast-1.modelarts-maas.com/openai/v1"
 env_key = "HUAWEI_MAAS_API_KEY"
 ```
 
@@ -56,7 +56,7 @@ llm-pi-ai:
       displayName: Huawei Cloud MaaS
       apiKeyEnv: HUAWEI_MAAS_API_KEY
       api: openai-completions
-      baseURL: https://api.modelarts-maas.com/openai/v1
+      baseURL: https://api-ap-southeast-1.modelarts-maas.com/openai/v1
       compat:
         supportsDeveloperRole: false
         maxTokensField: max_tokens
@@ -71,8 +71,8 @@ llm-pi-ai:
 
 - **Soporte de backend custom**: el harness debe permitir configurar un endpoint OpenAI-compatible (o Anthropic-compatible). Los que no permiten esto se excluyen.
 - **MaaS compatibility**: Huawei MaaS expone dos endpoints:
-  - **OpenAI-compatible**: `https://api.modelarts-maas.com/openai/v1` — para la mayoría de harnesses
-  - **Anthropic-compatible**: `https://api.modelarts-maas.com/anthropic` — para Claude Code
+  - **OpenAI-compatible**: `https://api-ap-southeast-1.modelarts-maas.com/openai/v1` — para la mayoría de harnesses
+  - **Anthropic-compatible**: `https://api-ap-southeast-1.modelarts-maas.com/anthropic` — para Claude Code
 - **Modelos disponibles en MaaS**: `glm-5.2` (quality, $1.40/1M in + $4.40/1M out), `glm-5.1` (speed, $1.078/1M in + $3.774/1M out), Qwen, DeepSeek, etc.
 - **Open source preferido**: para reproducibilidad y transparencia ante clientes.
 
