@@ -1,0 +1,15 @@
+name: aider
+category: cli
+endpoint_type: openai
+install_cmd: pip install aider-chat
+invoke_template: 'aider --model openai/{model} --no-auto-commits {prompt}'
+env_vars:
+  OPENAI_API_BASE: https://api.modelarts-maas.com/openai/v1
+  OPENAI_API_KEY: '${HUAWEI_MAAS_API_KEY}'
+config_steps:
+  - type: env
+    var: OPENAI_API_BASE
+    value: https://api.modelarts-maas.com/openai/v1
+  - type: env
+    var: OPENAI_API_KEY
+    value: '${HUAWEI_MAAS_API_KEY}'

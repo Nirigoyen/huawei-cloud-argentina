@@ -1,0 +1,25 @@
+id: debugging/npe_java
+vertical: debugging
+difficulty: medium
+language: java
+prompt: |
+  The file `UserService.java` contains Java code with NullPointerException risks.
+  Fix the code by using java.util.Optional to handle null values safely.
+
+  The code has several places where null values can cause NPE:
+  1. User lookup may return null
+  2. User's email may be null
+  3. User's address may be null
+  4. Address fields may be null
+
+  Requirements after fix:
+  1. Use Optional for all methods that may return null
+  2. Use Optional.map(), Optional.flatMap(), Optional.orElse() etc. instead of null checks
+  3. The getUserEmail method should return Optional<String>
+  4. The getUserCity method should return Optional<String> and chain through User -> Address -> city
+  5. The formatUserInfo method should handle all null cases gracefully
+  6. All existing tests must pass
+
+  Also provide a UserServiceTest.java in the tests directory if not already present.
+timeout_seconds: 180
+points: 20

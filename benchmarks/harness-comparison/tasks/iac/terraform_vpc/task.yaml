@@ -1,0 +1,39 @@
+id: iac/terraform_vpc
+vertical: iac
+difficulty: medium
+language: hcl
+prompt: |
+  Create a Terraform module for a VPC with the following resources.
+
+  Create files in a `modules/vpc/` directory:
+
+  1. `main.tf`: Define a VPC with:
+     - CIDR block variable (var.cidr_block, default 10.0.0.0/16)
+     - Enable DNS support and DNS hostnames
+     - 2 public subnets in different AZs
+     - 2 private subnets in different AZs
+     - Internet Gateway for public subnets
+     - NAT Gateway for private subnets (in one public subnet)
+     - Public route table routing 0.0.0.0/0 via IGW
+     - Private route table routing 0.0.0.0/0 via NAT GW
+     - Route table associations for all subnets
+
+  2. `variables.tf`: Variables for:
+     - cidr_block (string, default "10.0.0.0/16")
+     - environment (string, default "dev")
+     - project_name (string, default "my-project")
+     - region (string, default "us-east-1")
+     - public_subnet_cidrs (list of strings)
+     - private_subnet_cidrs (list of strings)
+
+  3. `outputs.tf`: Outputs for:
+     - vpc_id
+     - public_subnet_ids
+     - private_subnet_ids
+     - nat_gateway_id
+     - internet_gateway_id
+
+  Use proper tagging with Name, Environment, and Project tags.
+  Use the aws provider.
+timeout_seconds: 300
+points: 20

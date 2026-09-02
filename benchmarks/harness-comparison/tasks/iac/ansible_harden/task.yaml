@@ -1,0 +1,34 @@
+id: iac/ansible_harden
+vertical: iac
+difficulty: medium
+language: yaml
+prompt: |
+  Create an Ansible hardening role for Linux servers.
+
+  Create files in `roles/harden/` directory:
+
+  1. `tasks/main.yml`: Tasks to:
+     - Update all packages (apt or yum)
+     - Install and configure UFW firewall (allow SSH, HTTP, HTTPS; deny everything else)
+     - Disable root SSH login (set PermitRootLogin no in sshd_config)
+     - Disable password authentication (set PasswordAuthentication no)
+     - Set SSH port to 2222
+     - Install and enable fail2ban
+     - Set password policy: minlen 12, maxrepeat 3
+     - Remove unnecessary packages (telnet, rsh-server, ypserv)
+     - Set file permissions on /etc/passwd (644) and /etc/shadow (640)
+
+  2. `handlers/main.yml`: Handlers to restart sshd and ufw
+
+  3. `defaults/main.yml`: Default variables for:
+     - ssh_port: 2222
+     - allowed_ports: [22, 80, 443]
+     - fail2ban_maxretry: 3
+     - fail2ban_bantime: 3600
+
+  4. `meta/main.yml`: Role metadata with author, description, platforms
+
+  Use proper Ansible idioms: handlers for service restarts, idempotent tasks,
+  tags for task grouping.
+timeout_seconds: 180
+points: 20

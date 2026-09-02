@@ -1,0 +1,15 @@
+name: claude_code
+category: cli
+endpoint_type: anthropic
+install_cmd: npm install -g @anthropic-ai/claude-code
+invoke_template: 'claude --print "{prompt}"'
+env_vars:
+  ANTHROPIC_BASE_URL: https://api.modelarts-maas.com/anthropic
+  ANTHROPIC_API_KEY: '${HUAWEI_MAAS_API_KEY}'
+config_steps:
+  - type: env
+    var: ANTHROPIC_BASE_URL
+    value: https://api.modelarts-maas.com/anthropic
+  - type: env
+    var: ANTHROPIC_API_KEY
+    value: '${HUAWEI_MAAS_API_KEY}'

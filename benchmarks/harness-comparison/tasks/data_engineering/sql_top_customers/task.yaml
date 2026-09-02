@@ -1,0 +1,42 @@
+id: data_engineering/sql_top_customers
+vertical: data_engineering
+difficulty: medium
+language: sql
+prompt: |
+  Write a SQL query in a file called `query.sql` that finds the top 10 customers
+  by total purchase amount in the last 12 months.
+
+  Database schema (SQLite):
+
+  customers:
+    - id (INTEGER PRIMARY KEY)
+    - name (TEXT)
+    - email (TEXT)
+    - signup_date (TEXT, ISO format)
+
+  orders:
+    - id (INTEGER PRIMARY KEY)
+    - customer_id (INTEGER, FK -> customers.id)
+    - order_date (TEXT, ISO format)
+    - status (TEXT: 'completed', 'pending', 'cancelled')
+
+  order_items:
+    - id (INTEGER PRIMARY KEY)
+    - order_id (INTEGER, FK -> orders.id)
+    - product_name (TEXT)
+    - quantity (INTEGER)
+    - unit_price (REAL)
+
+  The query must return:
+    - customer_id
+    - customer_name
+    - total_amount (sum of quantity * unit_price for all completed orders)
+    - order_count (number of completed orders)
+    - avg_order_value (average value per order)
+    - last_order_date (most recent order date)
+
+  Only include customers with at least 2 completed orders.
+  Order results by total_amount descending.
+  Only count orders from the last 12 months (relative to the max order_date in the data).
+timeout_seconds: 180
+points: 20

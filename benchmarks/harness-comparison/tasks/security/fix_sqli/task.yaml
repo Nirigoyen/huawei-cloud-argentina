@@ -1,0 +1,17 @@
+id: security/fix_sqli
+vertical: security
+difficulty: medium
+language: python
+prompt: |
+  The file `app.py` contains a Flask application with SQL injection vulnerabilities.
+  Fix all SQL injection issues by using parameterized queries.
+
+  The vulnerable code uses string formatting to build SQL queries. You must:
+  1. Replace all string-formatted SQL with parameterized queries
+  2. Ensure the database connection uses parameterized queries correctly
+  3. Keep all existing functionality working (same endpoints, same responses)
+  4. Do not change the database schema or table structure
+
+  The application uses SQLite3. After fixing, the tests in tests/ should pass.
+timeout_seconds: 180
+points: 20

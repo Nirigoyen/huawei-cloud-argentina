@@ -1,0 +1,28 @@
+id: testing/jest_usefetch
+vertical: testing
+difficulty: medium
+language: javascript
+prompt: |
+  The file `useFetch.js` contains a custom React hook that uses the Fetch API.
+  Write comprehensive Jest tests in `useFetch.test.js` that test the hook.
+
+  The hook `useFetch(url)` does:
+  1. Returns { data: null, loading: true, error: null } initially
+  2. Fetches data from the given URL
+  3. On success: sets data, loading: false
+  4. On error: sets error, loading: false
+  5. On unmount: cancels the fetch (no state update)
+
+  Your tests must:
+  1. Mock global fetch
+  2. Test initial state
+  3. Test successful data fetch
+  4. Test error handling
+  5. Test loading state transitions
+  6. Test component unmount (cleanup)
+  7. Use @testing-library/react-hooks or renderHook from @testing-library/react
+  8. Use waitFor or act for async assertions
+
+  Also create a package.json with necessary dev dependencies.
+timeout_seconds: 180
+points: 20

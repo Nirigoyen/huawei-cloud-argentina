@@ -1,0 +1,19 @@
+name: codex
+category: cli
+endpoint_type: openai
+install_cmd: npm install -g @openai/codex
+invoke_template: 'codex exec "{prompt}"'
+env_vars:
+  OPENAI_API_KEY: '${HUAWEI_MAAS_API_KEY}'
+config_steps:
+  - type: file
+    path: ~/.codex/config.toml
+    content: |
+      [model_providers.maas]
+      name = "Huawei MaaS"
+      base_url = "https://api.modelarts-maas.com/openai/v1"
+      api_key = "${HUAWEI_MAAS_API_KEY}"
+
+      [model]
+      provider = "maas"
+      name = "{model}"

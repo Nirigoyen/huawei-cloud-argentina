@@ -1,0 +1,12 @@
+# Results and logs (not committed)
+results/
+logs/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+.venv/
+
+# API keys
+*.key
+.env

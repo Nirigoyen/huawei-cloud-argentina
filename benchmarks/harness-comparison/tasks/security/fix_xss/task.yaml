@@ -1,0 +1,22 @@
+id: security/fix_xss
+vertical: security
+difficulty: medium
+language: javascript
+prompt: |
+  The file `server.js` contains an Express.js application with XSS vulnerabilities.
+  Fix all XSS issues by properly sanitizing/escaping user input.
+
+  The vulnerable code:
+  1. Renders user input directly into HTML responses without escaping
+  2. Stores and displays user comments without sanitization
+  3. Has a search endpoint that reflects the query in HTML
+
+  You must:
+  1. Use a sanitization library (e.g., DOMPurify, express-xss-sanitizer, or manual escaping)
+  2. Set appropriate security headers (Content-Security-Policy, X-Content-Type-Options)
+  3. Escape all user input before rendering in HTML
+  4. Keep all existing functionality working
+
+  Install any needed npm packages and update package.json.
+timeout_seconds: 180
+points: 20

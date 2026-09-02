@@ -1,0 +1,19 @@
+name: copilot_cli
+category: cli
+endpoint_type: openai
+install_cmd: npm install -g @github/copilot-cli
+invoke_template: 'gh copilot suggest "{prompt}"'
+env_vars:
+  COPILOT_PROVIDER: openai
+  OPENAI_API_KEY: '${HUAWEI_MAAS_API_KEY}'
+  OPENAI_API_BASE: https://api.modelarts-maas.com/openai/v1
+config_steps:
+  - type: env
+    var: COPILOT_PROVIDER
+    value: openai
+  - type: env
+    var: OPENAI_API_BASE
+    value: https://api.modelarts-maas.com/openai/v1
+  - type: env
+    var: OPENAI_API_KEY
+    value: '${HUAWEI_MAAS_API_KEY}'

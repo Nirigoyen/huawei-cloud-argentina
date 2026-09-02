@@ -1,0 +1,26 @@
+id: software_design/payment_strategy
+vertical: software_design
+difficulty: medium
+language: python
+prompt: |
+  Implement the Strategy pattern for a payment processing system in `solution.py`.
+
+  Requirements:
+  1. Create an abstract base class `PaymentStrategy` with an abstract method `pay(amount: float) -> bool`
+  2. Implement three concrete strategies:
+     - `CreditCardPayment(name, card_number, cvv, expiry_date)`: validates card number (16 digits),
+       CVV (3 digits), and expiry (MM/YY format, not expired). pay() returns True if valid.
+     - `PayPalPayment(email, password): validates email format. pay() returns True if valid.
+     - `CryptoPayment(wallet_address, crypto_type)`: validates wallet address (starts with 0x,
+       min 40 chars). crypto_type must be one of: BTC, ETH, USDT. pay() returns True if valid.
+  3. Create a `PaymentContext` class that holds a strategy and delegates pay() to it.
+     - set_strategy(strategy): sets the active payment strategy
+     - process_payment(amount): delegates to strategy.pay(amount)
+  4. Create a `PaymentProcessor` class that can register multiple strategies by name and
+     process payments using a named strategy.
+     - register_strategy(name, strategy): registers a strategy
+     - pay(name, amount): uses the named strategy to pay
+
+  All validation should be done in the constructor. Invalid data should raise ValueError.
+timeout_seconds: 180
+points: 20

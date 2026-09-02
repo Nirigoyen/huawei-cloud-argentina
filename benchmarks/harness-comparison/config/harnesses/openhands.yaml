@@ -1,0 +1,19 @@
+name: openhands
+category: agent
+endpoint_type: openai
+install_cmd: docker pull openhands/openhands
+invoke_template: 'docker run -i --rm -e OPENAI_API_KEY -e OPENAI_BASE_URL openhands/openhands {prompt}'
+env_vars:
+  OPENAI_API_KEY: '${HUAWEI_MAAS_API_KEY}'
+  OPENAI_BASE_URL: https://api.modelarts-maas.com/openai/v1
+config_steps:
+  - type: file
+    path: ~/.openhands/config.toml
+    content: |
+      [core]
+      workspace_base = "/workspace"
+
+      [llm]
+      model = "openai/{model}"
+      api_key = "${HUAWEI_MAAS_API_KEY}"
+      base_url = "https://api.modelarts-maas.com/openai/v1"

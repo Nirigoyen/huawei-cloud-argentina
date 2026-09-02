@@ -1,0 +1,17 @@
+name: dsh
+category: cli
+endpoint_type: openai
+install_cmd: npx @deepseek-ai/dsh
+invoke_template: 'dsh exec "{prompt}"'
+env_vars:
+  OPENAI_API_KEY: '${HUAWEI_MAAS_API_KEY}'
+  OPENAI_API_BASE: https://api.modelarts-maas.com/openai/v1
+config_steps:
+  - type: file
+    path: ~/.dsh/settings.yaml
+    content: |
+      provider:
+        name: openai
+        base_url: https://api.modelarts-maas.com/openai/v1
+        api_key: ${HUAWEI_MAAS_API_KEY}
+      model: {model}

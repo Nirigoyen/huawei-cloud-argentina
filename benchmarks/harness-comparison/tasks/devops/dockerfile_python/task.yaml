@@ -1,0 +1,27 @@
+id: devops/dockerfile_python
+vertical: devops
+difficulty: medium
+language: dockerfile
+prompt: |
+  Create a multi-stage Dockerfile for a Python 3.12 Flask application.
+
+  The application has:
+  - app.py (Flask app)
+  - requirements.txt (dependencies)
+  - Tests in tests/ directory using pytest
+
+  Requirements for the Dockerfile:
+  1. Multi-stage build: builder stage installs dependencies, final stage is slim
+  2. Use python:3.12-slim as base for final stage
+  3. Create a non-root user and run as that user
+  4. Set appropriate working directory (/app)
+  5. Copy only necessary files to final stage
+  6. Expose port 5000
+  7. Use HEALTHCHECK directive
+  8. Use .dockerignore-friendly layer ordering (copy requirements before source)
+  9. Set PYTHONUNBUFFERED=1 and PYTHONDONTWRITEBYTECODE=1
+  10. CMD should use gunicorn or flask run
+
+  Also create a .dockerignore file that excludes tests, .git, __pycache__, etc.
+timeout_seconds: 180
+points: 20

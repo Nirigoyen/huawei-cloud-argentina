@@ -1,0 +1,29 @@
+id: refactoring/extract_function
+vertical: refactoring
+difficulty: medium
+language: python
+prompt: |
+  The file `order_processor.py` contains a 300+ line function that does everything.
+  Refactor it by extracting smaller, focused functions with single responsibilities.
+
+  The current `process_order` function handles:
+  1. Input validation
+  2. Discount calculation
+  3. Tax calculation
+  4. Shipping cost calculation
+  5. Order total computation
+  6. Receipt generation
+  7. Email notification
+  8. Database persistence
+  9. Inventory update
+  10. Audit logging
+
+  Requirements:
+  1. Extract at least 5 separate functions from the monolithic function
+  2. Each function should have a single responsibility
+  3. The main `process_order` function should orchestrate the extracted functions
+  4. All existing tests must pass
+  5. No cyclomatic complexity > 10 in any function (use mccabe or manual check)
+  6. Each function should have a clear name describing its responsibility
+timeout_seconds: 180
+points: 20

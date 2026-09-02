@@ -1,0 +1,19 @@
+id: debugging/binary_search_bug
+vertical: debugging
+difficulty: easy
+language: python
+prompt: |
+  The file `binary_search.py` contains a buggy implementation of binary search.
+  Find and fix the bug so that all tests pass.
+
+  The bug is a classic off-by-one or mid-calculation error. Read the code
+  carefully, identify the bug, and fix it. Do not rewrite the algorithm from
+  scratch -- fix the specific bug.
+
+  The function should:
+  - Take a sorted list and a target value
+  - Return the index of the target if found, -1 if not found
+  - Work correctly for all edge cases (empty list, single element, target at
+    start/end, target not present, duplicate elements)
+timeout_seconds: 120
+points: 10

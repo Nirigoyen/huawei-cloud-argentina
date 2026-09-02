@@ -1,0 +1,18 @@
+name: goose
+category: agent
+endpoint_type: openai
+install_cmd: curl -fsSL https://github.com/block/goose/releases/download/stable/install.sh | bash
+invoke_template: 'goose session --with-extension developer "{prompt}"'
+env_vars:
+  OPENAI_API_KEY: '${HUAWEI_MAAS_API_KEY}'
+  GOOSE_PROVIDER: openai
+config_steps:
+  - type: shell
+    cmd: 'goose configure --provider openai --base-url https://api.modelarts-maas.com/openai/v1 --api-key ${HUAWEI_MAAS_API_KEY}'
+  - type: file
+    path: ~/.config/goose/config.yaml
+    content: |
+      GOOSE_PROVIDER: openai
+      GOOSE_MODEL: {model}
+      OPENAI_API_KEY: ${HUAWEI_MAAS_API_KEY}
+      OPENAI_API_BASE: https://api.modelarts-maas.com/openai/v1

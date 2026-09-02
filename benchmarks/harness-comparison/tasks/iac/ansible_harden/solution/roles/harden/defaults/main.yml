@@ -1,0 +1,8 @@
+---
+ssh_port: 2222
+allowed_ports:
+  - 22
+  - 80
+  - 443
+fail2ban_maxretry: 3
+fail2ban_bantime: 3600

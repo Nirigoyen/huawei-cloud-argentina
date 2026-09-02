@@ -1,0 +1,26 @@
+id: code_generation/rate_limiter
+vertical: code_generation
+difficulty: medium
+language: javascript
+prompt: |
+  Implement a sliding window rate limiter in a file called `rateLimiter.js`.
+
+  The RateLimiter class should have:
+  - constructor(maxRequests, windowMs): maxRequests allowed per windowMs time window
+  - isAllowed(identifier): returns true if request is allowed, false if rate limit exceeded
+
+  The sliding window algorithm tracks timestamps of requests per identifier.
+  When isAllowed is called:
+  1. Remove timestamps older than the current window
+  2. If count < maxRequests, record timestamp and return true
+  3. Otherwise return false
+
+  Requirements:
+  - Each identifier (e.g., user ID, IP) has its own window
+  - Thread-safety is not required (single-threaded JS)
+  - Window is sliding, not fixed
+  - Must handle many identifiers efficiently
+
+  Export the RateLimiter class using module.exports.
+timeout_seconds: 180
+points: 20

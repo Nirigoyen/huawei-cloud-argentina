@@ -1,0 +1,25 @@
+id: devops/github_actions
+vertical: devops
+difficulty: medium
+language: yaml
+prompt: |
+  Create a GitHub Actions CI/CD workflow file at `.github/workflows/ci.yml` for a
+  Python 3.12 project with the following requirements:
+
+  1. Trigger on push to main and pull_request to main
+  2. Single job named "ci" that runs on ubuntu-latest
+  3. Steps:
+     a. Checkout code
+     b. Set up Python 3.12
+     c. Install dependencies from requirements.txt
+     d. Run linting with ruff (ruff check .)
+     e. Run tests with pytest (pytest --cov --cov-report=xml)
+     f. Upload coverage to Codecov (uses codecov/codecov-action@v4)
+  4. Use caching for pip dependencies
+  5. Use environment variables for PYTHON_VERSION
+  6. Add a second job "security" that runs bandit and pip-audit
+  7. The security job should depend on ci job (needs: ci)
+
+  Also create a requirements.txt with: flask, pytest, pytest-cov, ruff, bandit, pip-audit
+timeout_seconds: 180
+points: 20

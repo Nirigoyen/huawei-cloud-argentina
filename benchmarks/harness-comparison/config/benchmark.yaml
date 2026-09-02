@@ -1,0 +1,30 @@
+harnesses:
+  - aider
+  - claude_code
+  - codearts_agent
+  - codex
+  - copilot_cli
+  - crush
+  - dsh
+  - goose
+  - openhands
+  - pi
+  - swe_agent
+  - trae_agent
+
+verticals:
+  - code_generation
+  - software_design
+  - devops
+  - iac
+  - security
+  - documentation
+  - debugging
+  - refactoring
+  - data_engineering
+  - testing
+
+defaults:
+  repetitions: 3
+  workers: 8
+  timeout_seconds: 600

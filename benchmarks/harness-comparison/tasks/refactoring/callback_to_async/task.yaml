@@ -1,0 +1,26 @@
+id: refactoring/callback_to_async
+vertical: refactoring
+difficulty: medium
+language: javascript
+prompt: |
+  The file `callbackHell.js` contains JavaScript code with deeply nested callbacks
+  (callback hell). Refactor it to use async/await with Promises.
+
+  The current code:
+  1. Fetches a user by ID (callback)
+  2. Fetches user's orders (callback)
+  3. Fetches order details for each order (nested callbacks)
+  4. Fetches product info for each order item (deeply nested)
+  5. Formats the final result (innermost callback)
+
+  Requirements:
+  1. Convert all callback-based functions to return Promises
+  2. Use async/await in the main function
+  3. Use Promise.all for parallelizable operations (e.g., fetching order details)
+  4. Maintain the same output format
+  5. Add proper error handling with try/catch
+  6. Export the refactored function as `fetchUserOrderHistory`
+
+  The exported function should: fetchUserOrderHistory(userId) -> Promise<object>
+timeout_seconds: 180
+points: 20
