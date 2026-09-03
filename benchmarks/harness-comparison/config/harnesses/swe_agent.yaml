@@ -1,0 +1,17 @@
+name: swe_agent
+category: agent
+endpoint_type: openai
+install_cmd: pip install swe-agent
+invoke_template: 'python -m sweagent.run --instances_config {config}'
+env_vars:
+  OPENAI_API_KEY: '${HUAWEI_MAAS_API_KEY}'
+  OPENAI_API_BASE: https://api.modelarts-maas.com/openai/v1
+config_steps:
+  - type: file
+    path: ~/.swe_agent/config.yaml
+    content: |
+      agent:
+        model:
+          name: openai/{model}
+          api_base: https://api.modelarts-maas.com/openai/v1
+          api_key: ${HUAWEI_MAAS_API_KEY}

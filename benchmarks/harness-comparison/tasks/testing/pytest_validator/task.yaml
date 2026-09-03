@@ -1,0 +1,25 @@
+id: testing/pytest_validator
+vertical: testing
+difficulty: medium
+language: python
+prompt: |
+  The file `user.py` contains a Python dataclass and related functions.
+  Write comprehensive pytest tests in `test_user.py` that achieve at least 90% coverage.
+
+  The module contains:
+  - User dataclass with fields: id, name, email, age, is_active
+  - validate_user(user) function that validates a user
+  - create_user(name, email, age) function that creates and validates a user
+  - get_user_summary(user) function that returns a summary string
+  - filter_active_users(users) function that filters a list
+
+  Your tests must:
+  1. Test all public functions
+  2. Test both valid and invalid inputs
+  3. Test edge cases (empty strings, boundary ages, etc.)
+  4. Achieve at least 90% code coverage
+  5. Use appropriate pytest features (fixtures, parametrize, raises)
+  6. Include at least one parametrized test
+  7. Include at least one fixture
+timeout_seconds: 180
+points: 20

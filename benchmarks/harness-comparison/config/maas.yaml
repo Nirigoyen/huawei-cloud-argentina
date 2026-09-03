@@ -1,0 +1,5 @@
+maas:
+  openai_endpoint: https://api-ap-southeast-1.modelarts-maas.com/openai/v1
+  anthropic_endpoint: https://api-ap-southeast-1.modelarts-maas.com/anthropic
+  api_key_env: HUAWEI_MAAS_API_KEY  # env var name holding the key
+  region: ap-southeast-1

@@ -1,0 +1,11 @@
+name: pi
+category: cli
+endpoint_type: openai
+install_cmd: npm install -g @pi-ai/cli
+invoke_template: 'pi "{prompt}"'
+env_vars:
+  OPENAI_API_KEY: '${HUAWEI_MAAS_API_KEY}'
+  OPENAI_API_BASE: https://api.modelarts-maas.com/openai/v1
+config_steps:
+  - type: shell
+    cmd: 'pi provider config --name openai --base-url https://api.modelarts-maas.com/openai/v1 --api-key ${HUAWEI_MAAS_API_KEY}'

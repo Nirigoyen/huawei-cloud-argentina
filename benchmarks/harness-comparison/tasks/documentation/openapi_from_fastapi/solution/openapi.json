@@ -1,0 +1,181 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Library API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/books": {
+      "get": {
+        "summary": "List Books",
+        "operationId": "list_books_books_get",
+        "parameters": [
+          {
+            "name": "author",
+            "in": "query",
+            "required": false,
+            "description": "Filter by author",
+            "schema": {"type": "string"}
+          },
+          {
+            "name": "available",
+            "in": "query",
+            "required": false,
+            "description": "Filter by availability",
+            "schema": {"type": "boolean"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/Book"}
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Book",
+        "operationId": "create_book_books_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/BookCreate"}
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Book"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/books/{book_id}": {
+      "get": {
+        "summary": "Get Book",
+        "operationId": "get_book_books__book_id__get",
+        "parameters": [
+          {
+            "name": "book_id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the book",
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Book"}
+              }
+            }
+          },
+          "404": {
+            "description": "Book not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Book",
+        "operationId": "update_book_books__book_id__put",
+        "parameters": [
+          {
+            "name": "book_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/BookUpdate"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Book"}
+              }
+            }
+          },
+          "404": {
+            "description": "Book not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Book",
+        "operationId": "delete_book_books__book_id__delete",
+        "parameters": [
+          {
+            "name": "book_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "description": "Book not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Book": {
+        "type": "object",
+        "required": ["id", "title", "author", "isbn"],
+        "properties": {
+          "id": {"type": "integer"},
+          "title": {"type": "string"},
+          "author": {"type": "string"},
+          "isbn": {"type": "string"},
+          "published_date": {"type": "string", "format": "date", "nullable": true},
+          "available": {"type": "boolean", "default": true}
+        }
+      },
+      "BookCreate": {
+        "type": "object",
+        "required": ["title", "author", "isbn"],
+        "properties": {
+          "title": {"type": "string"},
+          "author": {"type": "string"},
+          "isbn": {"type": "string"},
+          "published_date": {"type": "string", "format": "date", "nullable": true}
+        }
+      },
+      "BookUpdate": {
+        "type": "object",
+        "properties": {
+          "title": {"type": "string", "nullable": true},
+          "author": {"type": "string", "nullable": true},
+          "available": {"type": "boolean", "nullable": true}
+        }
+      }
+    }
+  }
+}

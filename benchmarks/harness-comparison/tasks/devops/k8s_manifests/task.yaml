@@ -1,0 +1,41 @@
+id: devops/k8s_manifests
+vertical: devops
+difficulty: hard
+language: yaml
+prompt: |
+  Create Kubernetes manifests for a web application deployment.
+
+  Create a file `k8s.yaml` (or separate files in a `k8s/` directory) containing:
+
+  1. Deployment:
+     - Name: web-app
+     - Labels: app=web-app, tier=frontend
+     - 3 replicas
+     - Container: web-app, image: nginx:1.25-alpine, port 80
+     - Resource limits: cpu 200m, memory 256Mi; requests: cpu 100m, memory 128Mi
+     - Liveness probe: HTTP GET /healthz on port 80
+     - Readiness probe: HTTP GET /ready on port 80
+     - RollingUpdate strategy: maxSurge 1, maxUnavailable 0
+
+  2. Service:
+     - Name: web-app-service
+     - Type: ClusterIP
+     - Port 80 -> targetPort 80
+     - Selector: app=web-app
+
+  3. Ingress:
+     - Name: web-app-ingress
+     - Class: nginx
+     - Host: app.example.com
+     - Path: / -> service web-app-service:80
+
+  4. HorizontalPodAutoscaler:
+     - Target: web-app deployment
+     - minReplicas: 2, maxReplicas: 10
+     - CPU target: 70%
+
+  All resources should be in namespace "production".
+  Use apiVersion apps/v8 for Deployment, networking.k8s.io/v1 for Ingress,
+  autoscaling/v2 for HPA.
+timeout_seconds: 300
+points: 30

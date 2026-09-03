@@ -1,0 +1,16 @@
+name: codearts_agent
+category: agent
+endpoint_type: openai
+install_cmd: pip install codearts-cli
+invoke_template: 'codearts agent run --prompt "{prompt}" --config {config}'
+env_vars:
+  HUAWEI_MAAS_API_KEY: '${HUAWEI_MAAS_API_KEY}'
+  CODEARTS_REGION: cn-east-3
+config_steps:
+  - type: file
+    path: ~/.codearts/agent.yaml
+    content: |
+      endpoint: https://api.modelarts-maas.com/openai/v1
+      api_key: ${HUAWEI_MAAS_API_KEY}
+      region: cn-east-3
+      model: {model}

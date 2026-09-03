@@ -1,0 +1,12 @@
+first_name,last_name,email,phone,city,state,zip_code
+John,DOE,  john.doe@email.com  ,1234567890,New York,ny,10001
+jane,smith,Jane.Smith@Email.com,(123) 456-7890,Los Angeles,CA,90001
+bob,johnson,bob.johnson@test.com,1-800-123-4567,Chicago,IL,60601
+alice,williams,  alice@TEST.com  ,8001234567,Houston,TX,77001
+john,doe,john.doe@email.com,1234567890,New York,NY,10001
+charlie,brown,charlie.brown@,5551234567,Seattle,WA,98101
+diana,prince,diana@amazon.com,4445556666,,ca,94001
+eve,adams,eve.adams@paradise.net,2223334444,Miami,fl,33101
+frank,castle,frank@punisher.com,333,Newark,NJ,07101
+grace,hopper,grace@navy.mil,1234567890,Arlington,VA,22201
+harry,potter,harry@hogwarts.edu,9998887777,,UK,00123

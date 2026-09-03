@@ -1,0 +1,28 @@
+id: data_engineering/pandas_clean_addresses
+vertical: data_engineering
+difficulty: medium
+language: python
+prompt: |
+  The file `addresses.csv` contains messy address data. Write a Python script
+  `clean_addresses.py` that uses pandas to clean and standardize the data.
+
+  The cleaning operations required:
+  1. Remove duplicate rows (based on all columns)
+  2. Standardize name columns: strip whitespace, title case
+  3. Standardize email: lowercase, strip whitespace, validate format (must contain @ and domain)
+  4. Standardize phone: remove all non-digit characters, format as (XXX) XXX-XXXX
+     - If phone has 11 digits starting with 1, drop the leading 1
+     - If phone doesn't have 10 digits after cleaning, set to None
+  5. Standardize state: uppercase, strip whitespace
+  6. Standardize zip_code: extract first 5 digits, pad with leading zeros if needed
+  7. Fill missing city values with "Unknown"
+  8. Remove rows where email is invalid (after cleaning)
+
+  The script should:
+  - Read from `addresses.csv`
+  - Write cleaned data to `cleaned_addresses.csv`
+  - Print a summary of changes made (rows removed, etc.)
+
+  Export a function `clean_data(df)` that takes a DataFrame and returns a cleaned DataFrame.
+timeout_seconds: 180
+points: 20

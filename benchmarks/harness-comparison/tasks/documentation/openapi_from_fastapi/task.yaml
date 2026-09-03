@@ -1,0 +1,21 @@
+id: documentation/openapi_from_fastapi
+vertical: documentation
+difficulty: medium
+language: python
+prompt: |
+  The file `app.py` contains a FastAPI application. Generate a complete OpenAPI 3.0
+  specification for it and save it as `openapi.json`.
+
+  The OpenAPI spec must:
+  1. Include all endpoints defined in the app
+  2. Document request parameters, request bodies, and response schemas
+  3. Include proper schema definitions for all Pydantic models
+  4. Set the correct HTTP methods and paths
+  5. Include response status codes and descriptions
+  6. Have the OpenAPI version set to "3.0.x" (3.0.0, 3.0.1, or 3.0.3)
+  7. Include a title and version in the info section
+
+  You can use FastAPI's built-in OpenAPI generation or write the spec manually.
+  The spec must be valid JSON and match the actual API behavior.
+timeout_seconds: 180
+points: 20

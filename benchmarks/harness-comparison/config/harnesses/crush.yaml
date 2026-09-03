@@ -1,0 +1,11 @@
+name: crush
+category: cli
+endpoint_type: openai
+install_cmd: npm install -g @anthropic-ai/crush || curl -fsSL https://crush.ai/install | bash
+invoke_template: 'crush "{prompt}"'
+env_vars:
+  OPENAI_API_KEY: '${HUAWEI_MAAS_API_KEY}'
+  OPENAI_API_BASE: https://api.modelarts-maas.com/openai/v1
+config_steps:
+  - type: shell
+    cmd: 'crush provider add openai-compat --base-url https://api.modelarts-maas.com/openai/v1 --api-key ${HUAWEI_MAAS_API_KEY}'

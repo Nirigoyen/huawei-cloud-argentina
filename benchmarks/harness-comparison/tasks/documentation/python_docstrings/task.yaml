@@ -1,0 +1,30 @@
+id: documentation/python_docstrings
+vertical: documentation
+difficulty: easy
+language: python
+prompt: |
+  The file `calculator.py` contains a Python module with functions that have
+  no docstrings. Add Google-style docstrings to every function and class.
+
+  Google-style docstring format:
+    """Summary line.
+
+    Args:
+        param_name (type): Description.
+        ...
+
+    Returns:
+        type: Description.
+
+    Raises:
+        ExceptionType: Description.
+    """
+
+  Requirements:
+  1. Every public function and method must have a docstring
+  2. Every class must have a docstring
+  3. Docstrings must follow Google style
+  4. Include Args, Returns, and Raises sections where applicable
+  5. Summary line should be concise and descriptive
+timeout_seconds: 120
+points: 10

@@ -1,0 +1,27 @@
+id: software_design/microservice_decomposition
+vertical: software_design
+difficulty: medium
+language: python
+prompt: |
+  You are given a monolithic e-commerce application description in `monolith.py`.
+  Decompose it into microservices and produce an architecture document.
+
+  Create a file `architecture.md` that contains:
+  1. A Mermaid diagram showing the microservices and their communication patterns
+  2. A table listing each service with: name, responsibility, database, communication style
+  3. A section describing the API boundaries between services
+
+  The Mermaid diagram must use valid syntax (graph TD or graph LR).
+  Each service should be a node with a clear label.
+  Communication edges should show the protocol (HTTP, gRPC, async/event).
+
+  Also create a `services.py` file that defines each service as a Python class with:
+  - name: str
+  - responsibility: str
+  - database: str
+  - endpoints: list[str]
+  - dependencies: list[str] (other service names it calls)
+
+  The decomposition should identify at least 4 services from the monolith.
+timeout_seconds: 180
+points: 20

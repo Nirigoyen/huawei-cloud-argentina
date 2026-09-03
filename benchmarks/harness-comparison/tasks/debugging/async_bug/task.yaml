@@ -1,0 +1,22 @@
+id: debugging/async_bug
+vertical: debugging
+difficulty: medium
+language: javascript
+prompt: |
+  The file `fetchData.js` contains JavaScript code with a bug in async error
+  handling using Promise.all. Find and fix the bug.
+
+  The code fetches data from multiple URLs concurrently using Promise.all.
+  The bug is that errors from individual fetches are not properly handled,
+  causing the entire operation to fail even when some requests succeed.
+
+  Requirements after fix:
+  1. If some requests fail, return results for successful ones with null for failed ones
+  2. Each fetch should have a timeout of 5 seconds
+  3. The function should never throw -- it should always resolve with results
+  4. Results should be in the same order as the input URLs
+  5. Each result should include the URL and the data (or null on failure)
+
+  Export the function using module.exports.
+timeout_seconds: 180
+points: 20

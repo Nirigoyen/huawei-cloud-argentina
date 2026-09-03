@@ -1,0 +1,9 @@
+id: _template
+vertical: template
+difficulty: easy
+language: python
+prompt: |
+  This is a template task. Replace this prompt with the actual task description.
+  Describe what the agent should implement, fix, or design.
+timeout_seconds: 300
+points: 10

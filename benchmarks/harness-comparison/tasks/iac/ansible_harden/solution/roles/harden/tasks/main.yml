@@ -1,0 +1,99 @@
+---
+- name: Update all packages
+  apt:
+    update_cache: true
+    upgrade: dist
+  when: ansible_os_family == "Debian"
+  tags: packages
+
+- name: Update all packages (RHEL)
+  yum:
+    name: "*"
+    state: latest
+  when: ansible_os_family == "RedHat"
+  tags: packages
+
+- name: Install UFW
+  apt:
+    name: ufw
+    state: present
+  tags: firewall
+
+- name: Allow configured ports through UFW
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop: "{{ allowed_ports }}"
+  tags: firewall
+
+- name: Deny all other incoming traffic
+  ufw:
+    state: enabled
+    policy: deny
+  tags: firewall
+
+- name: Install fail2ban
+  apt:
+    name: fail2ban
+    state: present
+  tags: security
+
+- name: Configure fail2ban
+  template:
+    src: jail.local.j2
+    dest: /etc/fail2ban/jail.local
+  notify: restart fail2ban
+  tags: security
+
+- name: Disable root SSH login
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?PermitRootLogin"
+    line: "PermitRootLogin no"
+  notify: restart sshd
+  tags: ssh
+
+- name: Disable password authentication
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?PasswordAuthentication"
+    line: "PasswordAuthentication no"
+  notify: restart sshd
+  tags: ssh
+
+- name: Set SSH port to 2222
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?Port"
+    line: "Port 2222"
+  notify: restart sshd
+  tags: ssh
+
+- name: Remove unnecessary packages
+  apt:
+    name:
+      - telnet
+      - rsh-server
+      - ypserv
+    state: absent
+  tags: packages
+
+- name: Set password policy minimum length
+  lineinfile:
+    path: /etc/pam.d/common-password
+    regexp: "minlen"
+    line: "password requisite pam_pwquality.so minlen=12 maxrepeat=3"
+  tags: security
+
+- name: Set /etc/passwd permissions
+  file:
+    path: /etc/passwd
+    mode: "0644"
+  tags: permissions
+
+- name: Set /etc/shadow permissions
+  file:
+    path: /etc/shadow
+    mode: "0640"
+  tags: permissions

@@ -1,0 +1,25 @@
+# MaaS model profiles
+# GLM 5.2: $1.40/1M input, $4.40/1M output
+# GLM 5.1: $1.078/1M input, $3.774/1M output
+profiles:
+  quality:
+    model_id: glm-5.2
+    temperature: 0.7
+    max_tokens: 8192
+    pricing:
+      input_per_1m: 1.40
+      output_per_1m: 4.40
+  speed:
+    model_id: glm-5.1
+    temperature: 0.7
+    max_tokens: 8192
+    pricing:
+      input_per_1m: 1.078
+      output_per_1m: 3.774
+  deterministic:
+    model_id: glm-5.2
+    temperature: 0.0
+    max_tokens: 8192
+    pricing:
+      input_per_1m: 1.40
+      output_per_1m: 4.40

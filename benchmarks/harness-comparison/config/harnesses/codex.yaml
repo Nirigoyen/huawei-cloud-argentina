@@ -1,0 +1,24 @@
+name: codex
+category: cli
+endpoint_type: openai
+install_cmd: npm install -g @openai/codex
+invoke_template: 'codex exec "{prompt}"'
+env_vars:
+  HUAWEI_MAAS_API_KEY: '${HUAWEI_MAAS_API_KEY}'
+# NOTE: Codex CLI only supports the Responses API (/v1/responses).
+# MaaS only has Chat Completions (/v1/chat/completions).
+# A LiteLLM proxy is required to translate Responses → Chat Completions.
+# Start proxy: litellm --config config/litellm_proxy.yaml --port 4000
+proxy_required: true
+proxy_port: 4000
+config_steps:
+  - type: file
+    path: ~/.codex/config.toml
+    content: |
+      model_provider = "huawei-maas"
+      model = "{model}"
+
+      [model_providers.huawei-maas]
+      name = "Huawei Cloud MaaS (via LiteLLM proxy)"
+      base_url = "http://localhost:4000/v1"
+      env_key = "HUAWEI_MAAS_API_KEY"

@@ -1,0 +1,25 @@
+id: code_generation/lru_cache
+vertical: code_generation
+difficulty: hard
+language: rust
+prompt: |
+  Implement a thread-safe LRU (Least Recently Used) cache in Rust.
+
+  Create a file `src/lib.rs` (or `src/main.rs`) with an `LRUCache` struct that:
+
+  - new(capacity: usize) -> LRUCache<K, V>: creates cache with max capacity
+  - get(&mut self, key: &K) -> Option<V>: returns value if exists, marks as recently used
+  - put(&mut self, key: K, value: V): inserts/updates key-value, evicts LRU if over capacity
+  - len(&self) -> usize: current number of entries
+  - is_empty(&self) -> bool: true if empty
+
+  Thread safety: wrap the cache in a `LRUCacheConcurrent` struct using `Mutex` that provides:
+  - new(capacity: usize) -> Self
+  - get(&self, key: &K) -> Option<V> (locks internally)
+  - put(&self, key: K, value: V) (locks internally)
+
+  Use generics so the cache works with any K: Eq + Hash + Clone and V: Clone.
+
+  Your Cargo.toml should define the crate as a library.
+timeout_seconds: 300
+points: 30

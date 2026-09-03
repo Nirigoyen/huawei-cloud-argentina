@@ -1,0 +1,25 @@
+id: code_generation/merge_intervals
+vertical: code_generation
+difficulty: easy
+language: python
+prompt: |
+  Implement a function `merge_intervals(intervals)` in a file called `solution.py`
+  that takes a list of intervals (each interval is a list [start, end]) and merges
+  all overlapping intervals, returning a list of non-overlapping intervals sorted
+  by start time.
+
+  Examples:
+    merge_intervals([[1,3],[2,6],[8,10],[15,18]]) -> [[1,6],[8,10],[15,18]]
+    merge_intervals([[1,4],[4,5]]) -> [[1,5]]
+    merge_intervals([]) -> []
+    merge_intervals([[1,4]]) -> [[1,4]]
+    merge_intervals([[1,4],[0,4]]) -> [[0,4]]
+
+  The function should handle edge cases:
+  - Empty list
+  - Single interval
+  - All overlapping
+  - No overlapping
+  - Negative numbers
+timeout_seconds: 120
+points: 10

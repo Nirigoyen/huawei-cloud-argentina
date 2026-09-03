@@ -1,0 +1,16 @@
+name: trae_agent
+category: agent
+endpoint_type: openai
+install_cmd: git clone https://github.com/trae-ai/trae-agent.git /opt/trae-agent && pip install -e /opt/trae-agent
+invoke_template: 'trae run --prompt "{prompt}" --config {config}'
+env_vars:
+  OPENAI_API_KEY: '${HUAWEI_MAAS_API_KEY}'
+  OPENAI_API_BASE: https://api.modelarts-maas.com/openai/v1
+config_steps:
+  - type: file
+    path: ~/.trae/config.yaml
+    content: |
+      provider: openai
+      model: {model}
+      api_base: https://api.modelarts-maas.com/openai/v1
+      api_key: ${HUAWEI_MAAS_API_KEY}
