@@ -24,6 +24,9 @@ wren_projects/
 # Docker
 pgdata/
 
+# Uploads (OCR invoice files)
+uploads/
+
 # Terraform
 *.tfstate
 *.tfstate.*

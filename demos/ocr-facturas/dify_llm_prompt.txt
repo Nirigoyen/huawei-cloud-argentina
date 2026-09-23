@@ -1,0 +1,65 @@
+Extraé los datos del comprobante del siguiente texto OCR. Si un dato no aparece, escribí "No encontrado".
+
+INFORMACIÓN DEL COMPROBANTE
+Tipo de comprobante: (Factura, Nota de Crédito, etc.)
+Letra: (A, B, C, E o M)
+Código de comprobante: (3 dígitos, ej: 001, 006, 011)
+Punto de venta:
+Número de comprobante:
+Número completo: (formato PUNTO-NUMERO)
+Fecha de emisión:
+Moneda: (ARS, USD, EUR)
+Tipo de cambio:
+
+DATOS DEL EMISOR
+Nombre de fantasía:
+Nombre o razón social:
+CUIT:
+Condición fiscal:
+Domicilio:
+Localidad:
+Provincia:
+Código postal:
+Teléfono:
+Inicio de actividades:
+
+DATOS DEL CLIENTE
+Nombre o razón social:
+Tipo de documento:
+Número de documento:
+Condición fiscal:
+Domicilio:
+Localidad:
+Provincia:
+Código postal:
+Teléfono:
+Condición de venta:
+
+PRODUCTOS O SERVICIOS
+Código | Descripción | Cantidad | Unidad | Precio unitario | Bonificación | Subtotal sin IVA | Alícuota IVA | Total con IVA
+
+TOTALES
+Importe neto gravado:
+IVA:
+Otros tributos:
+Total en moneda del comprobante:
+Total equivalente en pesos:
+
+AUTORIZACIÓN
+CAE:
+Fecha de vencimiento del CAE:
+
+REGLAS CLAVE
+- Buscá "Total a pagar" para el total. Si dice "$659,97" el total es ARS 659,97.
+- Buscá "Cargos del período" o "Subtotal" para el importe neto.
+- El IVA puede estar explícito o calcularse como Total - Neto.
+- Buscá "CAE" o "C.A.E." para el CAE.
+- Buscá "Vencimiento" para la fecha de vencimiento.
+- Buscá "C.U.I.T." o "CUIT" para el CUIT del emisor.
+- Buscá "DNI" para el documento del cliente.
+- La letra puede aparecer sola (A, B, C) o deducirse del código: 001-003=A, 006-008=B, 011-013=C, 019-021=E, 051-053=M.
+- Formateá importes con punto como miles y coma como decimal. Ej: 659,97 → 659,97; 10000 → 10.000,00.
+- No inventes datos. Si no está, "No encontrado".
+- Una fila por cada producto/servicio.
+- No confundas CUIT del emisor con documento del cliente.
+- No incluyas textos legales ni leyendas como productos.
