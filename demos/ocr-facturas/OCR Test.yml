@@ -1,0 +1,627 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: workflow
+  name: OCR Test
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai_api_compatible:0.0.55@47a2292765960cabfff54caa4b20f5645f64d771af490f190bf4e77db9a640ba
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables:
+      - id: env-nombre-cuenta
+        name: NOMBRE_CUENTA
+        value: HIS_N50039069
+        value_type: string
+      - id: env-usuario-iam
+        name: USUARIO_IAM
+        value: De Nenis
+        value_type: string
+      - id: env-contrasena
+        name: IAM_PASSWORD
+        value: Nigger1234!@#$
+        value_type: string
+      - id: env-project-id
+        name: ID_PROYECTO_HONG_KONG
+        value: 1b4c4151340e4d189b802f9ffc0a7ece
+        value_type: string
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      # SVG excluded due to XSS risk
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 20
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: http-request
+      id: 1783697484527-source-1784167901612-target
+      selected: false
+      source: '1783697484527'
+      sourceHandle: source
+      target: '1784167901612'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: http-request
+        targetType: code
+      id: 1784167901612-source-1784168697748-target
+      source: '1784167901612'
+      sourceHandle: source
+      target: '1784168697748'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1784168697748-source-1784170381233-target
+      source: '1784168697748'
+      sourceHandle: source
+      target: '1784170381233'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1784210722315-source-1784211324771-target
+      source: '1784210722315'
+      sourceHandle: source
+      target: '1784211324771'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1784170381233-source-1784210722315-target
+      source: '1784170381233'
+      sourceHandle: source
+      target: '1784210722315'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: end
+        targetType: http-request
+      id: 1784211324771-source-1784223162378-target
+      source: '1784211324771'
+      sourceHandle: source
+      target: '1784223162378'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: User Input
+        type: start
+        variables:
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - document
+          - image
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          default: ''
+          hide: false
+          hint: ''
+          label: archivo
+          options: []
+          placeholder: ''
+          required: true
+          type: file
+          variable: archivo
+      height: 108
+      id: '1783697484527'
+      position:
+        x: 134.27063389746456
+        y: 286.93641253153976
+      positionAbsolute:
+        x: 134.27063389746456
+        y: 286.93641253153976
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - type: text
+            value: "{\n       \"auth\": {\n         \"identity\": {\n           \"\
+              methods\": [\"password\"],\n           \"password\": {\n           \
+              \  \"user\": {\n               \"name\": \"USUARIO_IAM\",\n      \
+              \         \"password\": \"IAM_PASSWORD\",\n               \"domain\":\
+              \ { \"name\": \"NOMBRE_CUENTA\" }\n             }\n           }\n  \
+              \       },\n         \"scope\": { \"project\": { \"name\": \"ap-southeast-1\"\
+              \ } }\n       }\n     }"
+          type: raw-text
+        headers: 'Content-Type: application/json'
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: HTTP Request
+        type: http-request
+        url: https://iam.ap-southeast-1.myhuaweicloud.com/v3/auth/tokens
+        variables: []
+      height: 152
+      id: '1784167901612'
+      position:
+        x: 455.89244300328187
+        y: 274.08295253536267
+      positionAbsolute:
+        x: 455.89244300328187
+        y: 274.08295253536267
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - type: text
+            value: "{\n       \"data\": \"{{#1784170381233.estado#}}\",\n       \"\
+              single_orientation_mode\": true,\n       \"language\": \"auto\",\n \
+              \      \"layout\": true,\n       \"table\": true\n     }"
+          type: raw-text
+        headers: 'Content-Type:application/json
+
+          X-Auth-Token:{{#1784168697748.token_limpio#}}'
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: HTTP Request 2
+        type: http-request
+        url: https://ocr.ap-southeast-1.myhuaweicloud.com/v2/166fd493f76543709f58a6049690bcf3/ocr/smart-document-recognizer
+        variables: []
+      height: 168
+      id: '1784168167268'
+      position:
+        x: 450.5124589004465
+        y: 622.1768372478718
+      positionAbsolute:
+        x: 450.5124589004465
+        y: 622.1768372478718
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        code: "function main(args) {\n    // Extraemos exactamente la key que devuelve\
+          \ Huawei\n    const token = args.mis_headers['x-subject-token'];\n    \n\
+          \    return {\n        token_limpio: token\n    };\n}\n"
+        code_language: javascript
+        outputs:
+          token_limpio:
+            children: null
+            type: string
+        selected: false
+        title: parser
+        type: code
+        variables:
+        - value_selector:
+          - '1784167901612'
+          - headers
+          value_type: object
+          variable: mis_headers
+      height: 51
+      id: '1784168697748'
+      position:
+        x: 793.2679056531365
+        y: 307.93641253153976
+      positionAbsolute:
+        x: 793.2679056531365
+        y: 307.93641253153976
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        code: "import requests\nimport base64\nimport re\nfrom urllib.parse import\
+          \ urlparse\n\n\ndef limpiar_texto(texto):\n    if texto is None:\n     \
+          \   return \"\"\n\n    texto = str(texto).replace(\"\\r\\n\", \"\\n\").replace(\"\
+          \\r\", \"\\n\")\n\n    lineas = []\n\n    for linea in texto.split(\"\\\
+          n\"):\n        linea = re.sub(r\"[ \\t]+\", \" \", linea).strip()\n\n  \
+          \      if linea:\n            lineas.append(linea)\n\n    return \"\\n\"\
+          .join(lineas)\n\n\ndef extraer_texto_estructurado(respuesta):\n    paginas\
+          \ = respuesta.get(\"result\", [])\n\n    if isinstance(paginas, dict):\n\
+          \        paginas = [paginas]\n\n    if not isinstance(paginas, list):\n\
+          \        return \"\", 0\n\n    salida = []\n    cantidad_bloques = 0\n\n\
+          \    for numero_pagina, pagina in enumerate(paginas, start=1):\n\n     \
+          \   if len(paginas) > 1:\n            salida.append(f\"===== PÁGINA {numero_pagina}\
+          \ =====\")\n\n        layout_blocks = (\n            pagina\n          \
+          \  .get(\"layout_result\", {})\n            .get(\"layout_block_list\",\
+          \ [])\n        )\n\n        # Principal: usar la estructura generada por\
+          \ Huawei.\n        if layout_blocks:\n            for bloque in layout_blocks:\n\
+          \                tipo = bloque.get(\"type\", \"text\")\n               \
+          \ texto = limpiar_texto(bloque.get(\"text\"))\n\n                if not\
+          \ texto:\n                    continue\n\n                salida.append(f\"\
+          [{tipo}] {texto}\")\n                cantidad_bloques += 1\n\n        #\
+          \ Fallback, solamente si Huawei no devolvió layout.\n        else:\n   \
+          \         words_blocks = (\n                pagina\n                .get(\"\
+          ocr_result\", {})\n                .get(\"words_block_list\", [])\n    \
+          \        )\n\n            for bloque in words_blocks:\n                texto\
+          \ = limpiar_texto(bloque.get(\"words\"))\n\n                if not texto:\n\
+          \                    continue\n\n                salida.append(f\"[text]\
+          \ {texto}\")\n                cantidad_bloques += 1\n\n        if numero_pagina\
+          \ < len(paginas):\n            salida.append(\"\")\n\n    return \"\\n\"\
+          .join(salida).strip(), cantidad_bloques\n\n\ndef main(url: str, token: str)\
+          \ -> dict:\n    try:\n        token = re.sub(r\"\\s+\", \"\", token or \"\
+          \")\n\n        if not token:\n            return {\n                \"estado\"\
+          : \"ERROR: token vacío\",\n                \"ocr_status\": 0,\n        \
+          \        \"bloques\": 0,\n                \"texto_limpio\": \"\"\n     \
+          \       }\n\n        # Convertir URL de Dify a URL interna.\n        parsed\
+          \ = urlparse(url)\n\n        ruta = parsed.path\n\n        if parsed.query:\n\
+          \            ruta += \"?\" + parsed.query\n\n        if ruta.startswith(\"\
+          /api/files\"):\n            ruta = ruta.replace(\"/api/files\", \"/files\"\
+          , 1)\n\n        url_interna = \"http://api:5001\" + ruta\n\n        # Descargar\
+          \ imagen.\n        res_img = requests.get(\n            url_interna,\n \
+          \           timeout=30\n        )\n\n        if res_img.status_code != 200:\n\
+          \            return {\n                \"estado\": (\n                 \
+          \   \"ERROR descargando archivo: \"\n                    + str(res_img.status_code)\n\
+          \                ),\n                \"ocr_status\": 0,\n              \
+          \  \"bloques\": 0,\n                \"texto_limpio\": res_img.text[:1000]\n\
+          \            }\n\n        if not res_img.content:\n            return {\n\
+          \                \"estado\": \"ERROR: archivo vacío\",\n               \
+          \ \"ocr_status\": 0,\n                \"bloques\": 0,\n                \"\
+          texto_limpio\": \"\"\n            }\n\n        imagen_b64 = base64.b64encode(\n\
+          \            res_img.content\n        ).decode(\"ascii\")\n\n        # Llamar\
+          \ a Huawei OCR.\n        huawei_url = (\n            \"https://ocr.ap-southeast-1.myhuaweicloud.com/\"\
+          \n            \"v2/ID_PROYECTO_HONG_KONG/\"\n            \"ocr/smart-document-recognizer\"\
+          \n        )\n\n        headers = {\n            \"Content-Type\": \"application/json\"\
+          ,\n            \"X-Auth-Token\": token\n        }\n\n        payload = {\n\
+          \            \"data\": imagen_b64,\n            \"single_orientation_mode\"\
+          : True,\n            \"language\": \"es\",\n            \"layout\": True,\n\
+          \            \"table\": True,\n            \"kv\": False,\n            \"\
+          form\": False\n        }\n\n        res_ocr = requests.post(\n         \
+          \   huawei_url,\n            headers=headers,\n            json=payload,\n\
+          \            timeout=120\n        )\n\n        if res_ocr.status_code !=\
+          \ 200:\n            return {\n                \"estado\": (\n          \
+          \          \"ERROR Huawei OCR: \"\n                    + str(res_ocr.status_code)\n\
+          \                ),\n                \"ocr_status\": res_ocr.status_code,\n\
+          \                \"bloques\": 0,\n                \"texto_limpio\": res_ocr.text[:2000]\n\
+          \            }\n\n        try:\n            respuesta = res_ocr.json()\n\
+          \        except ValueError:\n            return {\n                \"estado\"\
+          : \"ERROR: Huawei no devolvió JSON válido\",\n                \"ocr_status\"\
+          : res_ocr.status_code,\n                \"bloques\": 0,\n              \
+          \  \"texto_limpio\": res_ocr.text[:2000]\n            }\n\n        texto_limpio,\
+          \ cantidad_bloques = (\n            extraer_texto_estructurado(respuesta)\n\
+          \        )\n\n        if not texto_limpio:\n            return {\n     \
+          \           \"estado\": \"OCR OK, pero sin bloques de texto\",\n       \
+          \         \"ocr_status\": res_ocr.status_code,\n                \"bloques\"\
+          : 0,\n                \"texto_limpio\": \"\"\n            }\n\n        return\
+          \ {\n            \"estado\": \"OCR OK\",\n            \"ocr_status\": res_ocr.status_code,\n\
+          \            \"bloques\": cantidad_bloques,\n            \"texto_limpio\"\
+          : texto_limpio\n        }\n\n    except requests.Timeout:\n        return\
+          \ {\n            \"estado\": \"ERROR: timeout\",\n            \"ocr_status\"\
+          : 0,\n            \"bloques\": 0,\n            \"texto_limpio\": \"\"\n\
+          \        }\n\n    except Exception as error:\n        return {\n       \
+          \     \"estado\": (\n                f\"ERROR {type(error).__name__}: {str(error)}\"\
+          \n            ),\n            \"ocr_status\": 0,\n            \"bloques\"\
+          : 0,\n            \"texto_limpio\": \"\"\n        }"
+        code_language: python3
+        outputs:
+          bloques:
+            children: null
+            type: number
+          estado:
+            children: null
+            type: string
+          ocr_status:
+            children: null
+            type: number
+          texto_limpio:
+            children: null
+            type: string
+        selected: false
+        title: OCR
+        type: code
+        variables:
+        - value_selector:
+          - '1783697484527'
+          - archivo
+          - url
+          value_type: file
+          variable: url
+        - value_selector:
+          - '1784168697748'
+          - token_limpio
+          value_type: string
+          variable: token
+      height: 51
+      id: '1784170381233'
+      position:
+        x: 793.2679056531365
+        y: 433.31290521354777
+      positionAbsolute:
+        x: 793.2679056531365
+        y: 433.31290521354777
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1784170381233'
+          - texto_limpio
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: DeepSeek-V3
+          provider: langgenius/openai_api_compatible/openai_api_compatible
+        prompt_template:
+        - id: 0042655d-9e3b-445e-ae0a-ed40e10614ae
+          role: system
+          text: "Analiza el siguiente texto obtenido mediante OCR y extrae la información\
+            \ relevante del comprobante.\n\nDevuelve la información respetando exactamente\
+            \ el siguiente formato:\n\nINFORMACIÓN DEL COMPROBANTE\nTipo de comprobante:\n\
+            Letra:\nCódigo de comprobante:\nPunto de venta:\nNúmero de comprobante:\n\
+            Número completo:\nFecha de emisión:\nMoneda:\nTipo de cambio:\n\nDATOS\
+            \ DEL EMISOR\nNombre de fantasía:\nNombre o razón social:\nCUIT:\nCondición\
+            \ fiscal:\nDomicilio:\nLocalidad:\nProvincia:\nCódigo postal:\nTeléfono:\n\
+            Inicio de actividades:\n\nDATOS DEL CLIENTE\nNombre o razón social:\n\
+            Tipo de documento:\nNúmero de documento:\nCondición fiscal:\nDomicilio:\n\
+            Localidad:\nProvincia:\nCódigo postal:\nTeléfono:\nCondición de venta:\n\
+            \nPRODUCTOS O SERVICIOS\nCódigo | Descripción | Cantidad | Unidad | Precio\
+            \ unitario | Bonificación | Subtotal sin IVA | Alícuota IVA | Total con\
+            \ IVA\n\nTOTALES\nImporte neto gravado:\nIVA:\nOtros tributos:\nTotal\
+            \ en moneda del comprobante:\nTotal equivalente en pesos:\n\nAUTORIZACIÓN\n\
+            CAE:\nFecha de vencimiento del CAE:\n\nREGLAS GENERALES\n\n- Mantén cada\
+            \ dato en su campo correspondiente.\n- No coloques domicilio, teléfono,\
+            \ condición fiscal u otros datos dentro del nombre del emisor o del cliente.\n\
+            - No agregues explicaciones, introducciones, conclusiones ni texto adicional.\n\
+            - Respeta exactamente los títulos, los campos y el orden indicados.\n\
+            - Si un dato no aparece o no puede identificarse con suficiente seguridad,\
+            \ escribe \"No encontrado\".\n- No inventes información.\n- Conserva los\
+            \ ceros iniciales del punto de venta, número de comprobante y códigos.\n\
+            - Separa el punto de venta del número de comprobante.\n- Forma el número\
+            \ completo utilizando el formato PUNTO_DE_VENTA-NÚMERO_DE_COMPROBANTE.\n\
+            - Si el documento contiene CUIT, identifica el tipo de documento como\
+            \ CUIT.\n- Si contiene DNI, identifica el tipo de documento como DNI.\n\
+            - No confundas el CUIT del emisor con el CUIT o documento del cliente.\n\
+            - No confundas Ingresos Brutos con el CUIT.\n- No confundas el subtotal\
+            \ sin IVA con el total con IVA.\n- No confundas el importe en moneda extranjera\
+            \ con su equivalente en pesos argentinos.\n- No incluyas tablas de tributos\
+            \ como productos o servicios.\n- Ignora logos, códigos QR, textos legales,\
+            \ leyendas institucionales y textos ilegibles que no sean relevantes para\
+            \ los campos solicitados.\n\nREGLAS PARA EL NOMBRE DEL EMISOR\n\n- En\
+            \ \"Nombre de fantasía\" conserva solamente la marca o nombre comercial\
+            \ principal.\n- No incluyas slogans, subtítulos, descripciones del sistema\
+            \ ni textos pequeños ubicados debajo o alrededor del logo.\n- En \"Nombre\
+            \ o razón social\" utiliza exclusivamente el dato asociado con etiquetas\
+            \ como \"Razón Social\", \"Nombre y Apellido\" o equivalentes.\n- No reemplaces\
+            \ una razón social por el nombre de fantasía.\n\nREGLAS PARA LA LETRA\
+            \ Y EL CÓDIGO DEL COMPROBANTE\n\n- Primero busca visualmente la letra\
+            \ A, B, C, E o M en el texto OCR.\n- Si la letra no fue reconocida, determínala\
+            \ únicamente a partir del código de comprobante.\n- Normaliza el código\
+            \ de comprobante a tres dígitos. Por ejemplo, COD.01 debe mostrarse como\
+            \ 001 y COD.11 como 011.\n- El código puede aparecer como COD.01, COD.001,\
+            \ Cód. 01, Cód. 001 u otros formatos equivalentes.\n\nCorrespondencias:\n\
+            \n- Códigos 001, 002 o 003: letra A\n- Códigos 006, 007 u 008: letra B\n\
+            - Códigos 011, 012 o 013: letra C\n- Códigos 019, 020 o 021: letra E\n\
+            - Códigos 051, 052 o 053: letra M\n\n- Esta conversión entre código y\
+            \ letra es la única deducción permitida.\n- Si la letra no aparece y el\
+            \ código no coincide con ninguno de los anteriores, escribe \"No encontrado\"\
+            .\n- No confundas el código del comprobante con la letra.\n\nREGLAS PARA\
+            \ PRODUCTOS Y SERVICIOS\n\n- Crea una fila por cada producto o servicio.\n\
+            - Respeta el orden en el que aparecen en el documento.\n- Extrae código,\
+            \ descripción, cantidad, unidad, precio unitario, bonificación, subtotal\
+            \ sin IVA, alícuota de IVA y total con IVA.\n- Si un campo de una fila\
+            \ no aparece, escribe \"No encontrado\" solamente en ese campo.\n- Si\
+            \ la tabla informa \"Subtotal con IVA\", utilízalo como \"Total con IVA\"\
+            .\n- Si la tabla solo informa el importe final de la línea, colócalo en\
+            \ \"Total con IVA\" cuando el documento indique que incluye IVA.\n- No\
+            \ calcules valores que no estén expresados claramente, salvo operaciones\
+            \ aritméticas directas e inequívocas.\n- Corrige errores evidentes del\
+            \ OCR en palabras comunes y unidades. Por ejemplo:\n  - \"undades\" debe\
+            \ interpretarse como \"unidades\".\n  - \"Cudad\" debe interpretarse como\
+            \ \"Ciudad\".\n  - \"VA Responsable Inscripio\" debe interpretarse como\
+            \ \"IVA Responsable Inscripto\".\n- No corrijas ni alteres códigos de\
+            \ producto, CUIT, DNI, CAE, fechas, números de comprobante o importes.\n\
+            \nREGLAS PARA MONEDA, IMPORTES E IMPUESTOS\n\n- Identifica la moneda principal\
+            \ del comprobante.\n- Utiliza códigos de moneda:\n  - ARS para pesos argentinos.\n\
+            \  - USD para dólares estadounidenses.\n  - EUR para euros.\n- Incluye\
+            \ siempre la moneda delante de cada importe.\n- Formatea los importes\
+            \ usando punto como separador de miles y coma como separador decimal.\n\
+            - Ejemplos:\n  - 10000,00 debe mostrarse como 10.000,00.\n  - 12100,00\
+            \ debe mostrarse como 12.100,00.\n  - 786500,00 debe mostrarse como 786.500,00.\n\
+            - Mantén siempre dos decimales en importes.\n- Los porcentajes deben incluir\
+            \ el símbolo %.\n- Ejemplo: una bonificación de 0.00 debe mostrarse como\
+            \ 0,00%.\n- Si aparecen una o varias alícuotas de IVA, incluye cada alícuota\
+            \ y su importe en el campo IVA.\n- Ejemplo:\n  IVA: 21%: USD 2.100,00\n\
+            - Si existen varias alícuotas, sepáralas con punto y coma.\n- Si no hay\
+            \ otros tributos o todos tienen importe cero, escribe el importe cero\
+            \ con su moneda.\n- En \"Total en moneda del comprobante\" utiliza el\
+            \ total expresado en la moneda principal.\n- En \"Total equivalente en\
+            \ pesos\" utiliza solamente el importe convertido a pesos argentinos.\n\
+            - Si el comprobante está expresado en moneda extranjera, informa el tipo\
+            \ de cambio con el siguiente formato:\n  ARS 65,000000 por USD 1\n- No\
+            \ redondees el tipo de cambio ni elimines decimales presentes en el documento.\n\
+            \nREGLAS DE NORMALIZACIÓN\n\n- Corrige únicamente errores ortográficos\
+            \ evidentes del OCR en etiquetas, palabras comunes, localidades, provincias\
+            \ y unidades.\n- No modifiques nombres legales salvo que el error sea\
+            \ completamente evidente por el contexto.\n- No modifiques números sensibles\
+            \ ni identificadores.\n- Normaliza espacios duplicados.\n- Conserva el\
+            \ contenido original de nombres, domicilios y descripciones, excepto errores\
+            \ evidentes del OCR.\n- No agregues símbolos monetarios si la moneda no\
+            \ puede identificarse.\n- Si no se identifica la moneda, escribe \"No\
+            \ encontrado\".\n\nTexto OCR:\n\n{{#1784170381233.texto_limpio#}}"
+        selected: false
+        title: LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: '1784210722315'
+      position:
+        x: 1106.1553839564326
+        y: 332.771388539224
+      positionAbsolute:
+        x: 1106.1553839564326
+        y: 332.771388539224
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        outputs:
+        - value_selector:
+          - '1784210722315'
+          - text
+          value_type: string
+          variable: respuesta_llm
+        selected: false
+        title: Output
+        type: end
+      height: 87
+      id: '1784211324771'
+      position:
+        x: 1420.040108680122
+        y: 332.771388539224
+      positionAbsolute:
+        x: 1420.040108680122
+        y: 332.771388539224
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        headers: ''
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: HTTP Request 3
+        type: http-request
+        url: ''
+        variables: []
+      height: 80
+      id: '1784223162378'
+      position:
+        x: 1721.040108680122
+        y: 332.771388539224
+      positionAbsolute:
+        x: 1721.040108680122
+        y: 332.771388539224
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    viewport:
+      x: -33.19622150164105
+      y: 105.45852373231864
+      zoom: 0.5000000000000001
+  rag_pipeline_variables: []
